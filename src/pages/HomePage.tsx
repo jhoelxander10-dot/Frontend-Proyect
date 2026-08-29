@@ -1,42 +1,29 @@
-import { useNavigate } from "react-router-dom";
-
-
+import Navbar from "../components/navigation/Navbar";
 import { authRepository } from "../repositories/authRepository";
 
-
 function HomePage() {
-  const navigate = useNavigate();
   const user = authRepository.getCurrentUser();
 
-
-  const handleLogout = () => {
-    authRepository.logout();
-    navigate("/login", { replace: true });
-  };
-
+  if (!user) {
+    return <main className="home-page"><p>No existe una sesión activa.</p></main>;
+  }
 
   return (
-    <main>
-      <h1>Página principal</h1>
-
-
-      {user ? (
-        <>
-          <p>Bienvenido, {user.name}</p>
-          <p>Carnet: {user.carnet}</p>
-          <p>Rol: {user.role}</p>
-
-
-          <button type="button" onClick={handleLogout}>
-            Cerrar sesión
-          </button>
-        </>
-      ) : (
-        <p>No existe una sesión activa.</p>
-      )}
-    </main>
+    <>
+      <Navbar user={user} />
+      <main className="home-page">
+        <section className="home-page__welcome">
+          <p className="home-page__eyebrow">Panel principal</p>
+          <h1>Bienvenido, {user.name}</h1>
+          <p>Gestiona la información del sistema desde un solo lugar.</p>
+        </section>
+        <section className="home-page__card" aria-label="Datos de sesión">
+          <span>Carnet</span><strong>{user.carnet}</strong>
+          <span>Rol</span><strong>{user.role}</strong>
+        </section>
+      </main>
+    </>
   );
 }
-
 
 export default HomePage;
