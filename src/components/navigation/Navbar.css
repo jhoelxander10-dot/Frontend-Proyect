@@ -1,0 +1,17 @@
+.navbar { background: #ffffff; border-bottom: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06); }
+.navbar__content { width: min(100% - 48px, 1200px); min-height: 72px; margin: 0 auto; display: flex; align-items: center; gap: 40px; }
+.navbar__brand { display: inline-flex; align-items: center; gap: 10px; color: #0f172a; font-size: 17px; font-weight: 800; text-decoration: none; white-space: nowrap; }
+.navbar__brand-icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 11px; background: linear-gradient(135deg, #0284c7, #0369a1); box-shadow: 0 6px 14px rgba(2, 132, 199, 0.24); font-size: 20px; }
+.navbar__links { display: flex; align-self: stretch; align-items: stretch; }
+.navbar__link { display: inline-flex; align-items: center; padding: 0 4px; border-bottom: 3px solid transparent; color: #64748b; font-size: 14px; font-weight: 700; text-decoration: none; transition: color 0.2s ease, border-color 0.2s ease; }
+.navbar__link:hover, .navbar__link--active { border-color: #0ea5e9; color: #0369a1; }
+.navbar__profile { margin-left: auto; display: flex; align-items: center; gap: 11px; }
+.navbar__avatar { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; background: #e0f2fe; color: #0369a1; font-size: 15px; font-weight: 800; }
+.navbar__user-details { display: grid; gap: 2px; line-height: 1.2; }
+.navbar__user-name { color: #1e293b; font-size: 14px; font-weight: 700; }
+.navbar__user-role { color: #64748b; font-size: 12px; }
+.navbar__logout { margin-left: 10px; padding: 9px 13px; border: 1px solid #bae6fd; border-radius: 9px; background: #f0f9ff; color: #0369a1; cursor: pointer; font: inherit; font-size: 13px; font-weight: 700; transition: background 0.2s ease, border-color 0.2s ease; }
+.navbar__logout:hover { border-color: #7dd3fc; background: #e0f2fe; }
+.navbar__logout:focus-visible, .navbar__brand:focus-visible, .navbar__link:focus-visible { outline: 3px solid rgba(14, 165, 233, 0.35); outline-offset: 3px; }
+@media (max-width: 680px) { .navbar__content { width: min(100% - 32px, 1200px); min-height: 64px; gap: 16px; } .navbar__brand { font-size: 0; } .navbar__brand-icon { font-size: 20px; } .navbar__user-details { display: none; } .navbar__logout { margin-left: 0; } }
+@media (max-width: 420px) { .navbar__links { display: none; } }

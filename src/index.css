@@ -7,5 +7,15 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #f3f4f6;
+  color: #0f172a;
 }
 
+button, input { font: inherit; }
+.home-page { width: min(100% - 48px, 1200px); margin: 0 auto; padding: 56px 0; }
+.home-page__welcome { max-width: 640px; }
+.home-page__eyebrow { margin: 0 0 8px; color: #0284c7; font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; }
+.home-page h1 { margin: 0; font-size: clamp(30px, 5vw, 42px); }
+.home-page__welcome > p:last-child { color: #64748b; font-size: 17px; }
+.home-page__card { max-width: 380px; margin-top: 32px; padding: 24px; display: grid; grid-template-columns: 1fr auto; gap: 14px; border: 1px solid #e2e8f0; border-radius: 16px; background: #ffffff; box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05); color: #64748b; font-size: 14px; }
+.home-page__card strong { color: #1e293b; }
+@media (max-width: 680px) { .home-page { width: min(100% - 32px, 1200px); padding: 40px 0; } }
