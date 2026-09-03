@@ -1,0 +1,17 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Arial, Helvetica, sans-serif; }
+.section-page { min-height: 100vh; padding: 35px 7%; background: linear-gradient(135deg, #fff8e8, #f0dfb4); color: #171717; }
+.back-button { border: 0; border-radius: 7px; padding: 11px 18px; background: #b78a16; color: white; font-weight: 700; cursor: pointer; }
+.section-card { max-width: 1050px; margin: 25px auto; padding: 30px; background: #fffaf0; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,.18); }
+.section-card h1 { margin-top: 0; font-size: 30px; }
+.section-card > p { color: #5f5339; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; margin-top: 22px; background: white; }
+th, td { padding: 14px; text-align: left; border-bottom: 1px solid #e4d9bb; }
+th { background: #e8ca79; }
+.course-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 22px; }
+.mini-card { padding: 22px; border-radius: 10px; background: #f8ebca; border: 1px solid #dbc68e; }
+.mini-card h2 { margin: 0 0 8px; }
+.mini-card p { margin: 0 0 7px; }
+.mini-card span { color: #8b6b15; font-weight: 700; }
+@media (max-width: 650px) { .course-grid { grid-template-columns: 1fr; } .section-card { padding: 20px; } }
