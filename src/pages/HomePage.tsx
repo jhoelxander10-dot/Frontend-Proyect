@@ -15,11 +15,7 @@ function Icon({ name }: { name: IconName }) {
     search: "m21 21-4.5-4.5M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z",
   };
 
-  return (
-    <svg className="icon" viewBox="0 0 24 24" aria-hidden="true">
-      <path d={paths[name]} />
-    </svg>
-  );
+  return <svg className="icon" viewBox="0 0 24 24" aria-hidden="true"><path d={paths[name]} /></svg>;
 }
 
 function HomePage() {
@@ -36,63 +32,32 @@ function HomePage() {
     <div className="school-app">
       <header className="school-navbar">
         <button className="school-logo" onClick={() => navigate("/")} aria-label="Ir al inicio">
-          <span className="logo-house"><Icon name="home" /></span>
-          <span>Mi<span>Colegio</span></span>
+          <img src="https://donboscosucre.edu.bo/logo-white.png" alt="Don Bosco Sucre" />
+          <span>Don Bosco</span>
         </button>
 
         <nav className="school-nav" aria-label="Navegación principal">
-          <button className="nav-item active" onClick={() => navigate("/")}>
-            <Icon name="home" /> <span>Inicio</span>
-          </button>
-          <button className="nav-item" onClick={() => navigate("/alumnos")}>
-            <Icon name="students" /> <span>Alumnos</span>
-          </button>
-          <button className="nav-item" onClick={() => navigate("/cursos")}>
-            <Icon name="courses" /> <span>Cursos</span>
-          </button>
-          <button className="nav-item" onClick={() => navigate("/notas")}>
-            <Icon name="notes" /> <span>Notas</span>
-          </button>
-          <button className="nav-item" onClick={() => navigate("/horarios")}>
-            <Icon name="schedule" /> <span>Horarios</span>
-          </button>
+          <button className="nav-item active" onClick={() => navigate("/")}><Icon name="home" /> <span>Inicio</span></button>
+          <button className="nav-item" onClick={() => navigate("/alumnos")}><Icon name="students" /> <span>Alumnos</span></button>
+          <button className="nav-item" onClick={() => navigate("/cursos")}><Icon name="courses" /> <span>Cursos</span></button>
+          <button className="nav-item" onClick={() => navigate("/notas")}><Icon name="notes" /> <span>Notas</span></button>
+          <button className="nav-item" onClick={() => navigate("/horarios")}><Icon name="schedule" /> <span>Horarios</span></button>
         </nav>
 
-        <button className="logout-button" onClick={logout}>
-          <Icon name="logout" /> <span>Cerrar Sesión</span>
-        </button>
+        <button className="logout-button" onClick={logout}><Icon name="logout" /> <span>Cerrar Sesión</span></button>
       </header>
 
       <main className="dashboard-main">
         <section className="welcome-panel">
-          <p className="welcome-label">PLATAFORMA EDUCATIVA</p>
-          <h1>BIENVENIDO A MICOLEGIO</h1>
-          <p className="student-greeting">Hola <strong>{studentName}</strong></p>
+          <p className="welcome-label">UNIDAD EDUCATIVA DON BOSCO · SUCRE</p>
+          <h1>Portal Académico</h1>
+          <p className="student-greeting">Hola <strong>{studentName}</strong>, bienvenido a tu espacio estudiantil.</p>
 
           <div className="dashboard-actions">
-            <button className="dashboard-card" onClick={() => navigate("/alumnos")}>
-              <span className="dashboard-icon"><Icon name="search" /></span>
-              <strong>Consultar<br />Alumnos</strong>
-              <small>Ver estudiantes</small>
-            </button>
-
-            <button className="dashboard-card" onClick={() => navigate("/cursos")}>
-              <span className="dashboard-icon"><Icon name="courses" /></span>
-              <strong>Ver Cursos</strong>
-              <small>Mis materias</small>
-            </button>
-
-            <button className="dashboard-card" onClick={() => navigate("/notas")}>
-              <span className="dashboard-icon"><Icon name="notes" /></span>
-              <strong>Ver Mis Notas</strong>
-              <small>Mis calificaciones</small>
-            </button>
-
-            <button className="dashboard-card" onClick={() => navigate("/horarios")}>
-              <span className="dashboard-icon"><Icon name="schedule" /></span>
-              <strong>Horarios</strong>
-              <small>Horario semanal</small>
-            </button>
+            <button className="dashboard-card" onClick={() => navigate("/alumnos")}><span className="dashboard-icon"><Icon name="search" /></span><strong>Consultar<br />Alumnos</strong><small>Ver estudiantes</small></button>
+            <button className="dashboard-card" onClick={() => navigate("/cursos")}><span className="dashboard-icon"><Icon name="courses" /></span><strong>Ver Cursos</strong><small>Mis materias</small></button>
+            <button className="dashboard-card" onClick={() => navigate("/notas")}><span className="dashboard-icon"><Icon name="notes" /></span><strong>Ver Mis Notas</strong><small>Mis calificaciones</small></button>
+            <button className="dashboard-card" onClick={() => navigate("/horarios")}><span className="dashboard-icon"><Icon name="schedule" /></span><strong>Horarios</strong><small>Horario semanal</small></button>
           </div>
         </section>
       </main>
