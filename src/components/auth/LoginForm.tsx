@@ -50,100 +50,115 @@ function LoginForm({ error, onSubmit, onRegister }: LoginFormProps) {
 
   return (
     <div className="login-page">
-      <div className="background-circle circle-one" />
-      <div className="background-circle circle-two" />
+      <div className="login-top-bar" />
+      <div className="login-background-shape shape-one" />
+      <div className="login-background-shape shape-two" />
 
-      <form className="login-card" onSubmit={handleSubmit}>
-        <div className="login-logo">
-          <img src="https://donboscosucre.edu.bo/logo-white.png" alt="Logo Don Bosco Sucre" />
-        </div>
-
-        <div className="login-title">
-          <span className="institution-name">UNIDAD EDUCATIVA DON BOSCO</span>
-          <h1>{isRegistering ? "Crear cuenta" : "Bienvenido"}</h1>
-          <p>
-            {isRegistering
-              ? "Registra tu cuenta estudiantil institucional"
-              : "Ingresa al portal académico del estudiante"}
+      <main className="login-layout">
+        <section className="login-brand-panel">
+          <div className="brand-logo-wrap">
+            <img
+              src="https://donboscosucre.edu.bo/logo-white.png"
+              alt="Logo de la Unidad Educativa Don Bosco Sucre"
+            />
+          </div>
+          <p className="brand-kicker">COMUNIDAD EDUCATIVA PASTORAL</p>
+          <h1>Don Bosco Sucre</h1>
+          <p className="brand-message">
+            Formación integral, valores y excelencia académica al servicio de nuestros estudiantes.
           </p>
-        </div>
+          <div className="brand-line" />
+          <span className="brand-location">SUCRE · BOLIVIA</span>
+        </section>
 
-        {isRegistering && (
+        <form className="login-card" onSubmit={handleSubmit}>
+          <div className="login-card-header">
+            <span className="institution-name">DON BOSCO SUCRE</span>
+            <h2>{isRegistering ? "Crear cuenta" : "Iniciar sesión"}</h2>
+            <p>
+              {isRegistering
+                ? "Crea tu cuenta para acceder al portal académico."
+                : "Accede a tu información académica."}
+            </p>
+          </div>
+
+          {isRegistering && (
+            <div className="form-group">
+              <label htmlFor="name">Nombre completo</label>
+              <div className="input-wrapper">
+                <span className="input-icon" aria-hidden="true">👤</span>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  placeholder="Nombre y apellidos"
+                  autoComplete="name"
+                  required
+                />
+              </div>
+            </div>
+          )}
+
           <div className="form-group">
-            <label htmlFor="name">Nombre completo</label>
+            <label htmlFor="carnet">Carnet de identidad</label>
             <div className="input-wrapper">
-              <span className="input-icon">👤</span>
+              <span className="input-icon" aria-hidden="true">👤</span>
               <input
-                id="name"
-                name="name"
+                id="carnet"
+                name="carnet"
                 type="text"
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                placeholder="Escribe tu nombre completo"
-                autoComplete="name"
+                value={carnet}
+                onChange={(event) => setCarnet(event.target.value)}
+                placeholder="Ingresa tu carnet"
+                autoComplete="username"
                 required
               />
             </div>
           </div>
-        )}
 
-        <div className="form-group">
-          <label htmlFor="carnet">Carnet de identidad</label>
-          <div className="input-wrapper">
-            <span className="input-icon">🪪</span>
-            <input
-              id="carnet"
-              name="carnet"
-              type="text"
-              value={carnet}
-              onChange={(event) => setCarnet(event.target.value)}
-              placeholder="Ingresa tu carnet"
-              autoComplete="username"
-              required
-            />
+          <div className="form-group">
+            <label htmlFor="password">Contraseña</label>
+            <div className="input-wrapper">
+              <span className="input-icon" aria-hidden="true">🔒</span>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder="Ingresa tu contraseña"
+                autoComplete={isRegistering ? "new-password" : "current-password"}
+                minLength={6}
+                required
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="form-group">
-          <label htmlFor="password">Contraseña</label>
-          <div className="input-wrapper">
-            <span className="input-icon">🔒</span>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="Mínimo 6 caracteres"
-              autoComplete={isRegistering ? "new-password" : "current-password"}
-              minLength={6}
-              required
-            />
-          </div>
-        </div>
+          {(error || registerError) && (
+            <div className="login-error" role="alert">⚠️ {error || registerError}</div>
+          )}
 
-        {(error || registerError) && (
-          <div className="login-error" role="alert">⚠️ {error || registerError}</div>
-        )}
+          {registerMessage && (
+            <div className="login-success" role="status">✓ {registerMessage}</div>
+          )}
 
-        {registerMessage && (
-          <div className="login-success" role="status">✓ {registerMessage}</div>
-        )}
+          <button className="login-button" type="submit">
+            <span>{isRegistering ? "Crear cuenta" : "Ingresar"}</span>
+            <span className="button-arrow">→</span>
+          </button>
 
-        <button className="login-button" type="submit">
-          <span>{isRegistering ? "Crear cuenta institucional" : "Iniciar sesión"}</span>
-          <span className="button-arrow">→</span>
-        </button>
+          <button className="mode-button" type="button" onClick={toggleMode}>
+            {isRegistering
+              ? "¿Ya tienes cuenta? Iniciar sesión"
+              : "¿Eres estudiante nuevo? Crear cuenta"}
+          </button>
 
-        <button className="mode-button" type="button" onClick={toggleMode}>
-          {isRegistering
-            ? "¿Ya tienes cuenta? Inicia sesión"
-            : "¿Eres estudiante nuevo? Crear cuenta"}
-        </button>
-
-        <div className="login-divider"><span>Portal académico estudiantil</span></div>
-        <p className="login-footer">Consulta tus notas, cursos y horarios desde tu cuenta.</p>
-      </form>
+          <div className="login-divider"><span>Portal Académico</span></div>
+          <p className="login-footer">Sistema académico estudiantil · Don Bosco Sucre</p>
+        </form>
+      </main>
     </div>
   );
 }
