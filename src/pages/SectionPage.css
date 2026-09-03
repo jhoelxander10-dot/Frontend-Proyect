@@ -1,17 +1,157 @@
-* { box-sizing: border-box; }
-body { margin: 0; font-family: Arial, Helvetica, sans-serif; }
-.section-page { min-height: 100vh; padding: 35px 7%; background: linear-gradient(135deg, #fff8e8, #f0dfb4); color: #171717; }
-.back-button { border: 0; border-radius: 7px; padding: 11px 18px; background: #b78a16; color: white; font-weight: 700; cursor: pointer; }
-.section-card { max-width: 1050px; margin: 25px auto; padding: 30px; background: #fffaf0; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,.18); }
-.section-card h1 { margin-top: 0; font-size: 30px; }
-.section-card > p { color: #5f5339; }
-.table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; margin-top: 22px; background: white; }
-th, td { padding: 14px; text-align: left; border-bottom: 1px solid #e4d9bb; }
-th { background: #e8ca79; }
-.course-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 22px; }
-.mini-card { padding: 22px; border-radius: 10px; background: #f8ebca; border: 1px solid #dbc68e; }
-.mini-card h2 { margin: 0 0 8px; }
-.mini-card p { margin: 0 0 7px; }
-.mini-card span { color: #8b6b15; font-weight: 700; }
-@media (max-width: 650px) { .course-grid { grid-template-columns: 1fr; } .section-card { padding: 20px; } }
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4efe3;
+}
+
+.section-page {
+  min-height: 100vh;
+  padding: 32px 6%;
+  background:
+    radial-gradient(circle at top right, rgba(232, 202, 121, 0.35), transparent 32%),
+    linear-gradient(135deg, #fffaf0 0%, #efe2bd 100%);
+  color: #171717;
+}
+
+.back-button {
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 19px;
+  background: #9a7313;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 5px 12px rgba(80, 58, 8, 0.18);
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.back-button:hover {
+  background: #7d5c0d;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(80, 58, 8, 0.24);
+}
+
+.section-card {
+  max-width: 1100px;
+  margin: 28px auto;
+  padding: 34px;
+  background: rgba(255, 252, 244, 0.96);
+  border: 1px solid rgba(183, 138, 22, 0.18);
+  border-radius: 18px;
+  box-shadow: 0 14px 35px rgba(70, 55, 20, 0.14);
+}
+
+.section-card h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+  color: #4b390c;
+}
+
+.section-card > p {
+  margin: 0;
+  color: #6d6248;
+  line-height: 1.6;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin-top: 26px;
+  border-radius: 13px;
+  border: 1px solid #e2d6b8;
+  box-shadow: 0 5px 16px rgba(65, 50, 15, 0.07);
+}
+
+table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+th,
+td {
+  padding: 15px 17px;
+  text-align: left;
+  border-bottom: 1px solid #eee5d1;
+}
+
+th {
+  background: #e8ca79;
+  color: #493708;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+tbody tr {
+  transition: background 0.18s ease;
+}
+
+tbody tr:hover {
+  background: #fff9e9;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 26px;
+}
+
+.mini-card {
+  padding: 24px;
+  border-radius: 15px;
+  background: linear-gradient(145deg, #fff8df, #f6e8bf);
+  border: 1px solid #ddca96;
+  box-shadow: 0 7px 16px rgba(83, 63, 17, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mini-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 22px rgba(83, 63, 17, 0.14);
+}
+
+.mini-card h2 {
+  margin: 0 0 10px;
+  color: #4b390c;
+  font-size: 21px;
+}
+
+.mini-card p {
+  margin: 0 0 9px;
+  color: #665a3e;
+}
+
+.mini-card span {
+  color: #8b6b15;
+  font-weight: 700;
+}
+
+@media (max-width: 650px) {
+  .section-page {
+    padding: 22px 4%;
+  }
+
+  .section-card {
+    padding: 22px;
+    margin-top: 22px;
+  }
+
+  .section-card h1 {
+    font-size: 26px;
+  }
+
+  .course-grid {
+    grid-template-columns: 1fr;
+  }
+}
