@@ -11,61 +11,63 @@ button { font: inherit; }
 
 .school-app {
   min-height: 100vh;
-  background: linear-gradient(135deg, #fff8e8 0%, #f5e8c8 55%, #edd8a5 100%);
+  background: linear-gradient(135deg, #fffaf0 0%, #f5e8c8 52%, #e7c86b 100%);
   position: relative;
   overflow: hidden;
 }
 
+.school-app::before,
 .school-app::after {
   content: "";
   position: fixed;
-  width: 430px;
-  height: 430px;
-  right: -170px;
-  bottom: -240px;
-  border: 9px solid #c79c26;
+  border: 8px solid rgba(183, 138, 22, .22);
   border-radius: 50%;
   pointer-events: none;
 }
 
+.school-app::before { width: 330px; height: 330px; left: -190px; top: 150px; }
+.school-app::after { width: 430px; height: 430px; right: -220px; bottom: -250px; }
+
 .school-navbar {
   min-height: 82px;
-  padding: 6px 38px;
-  background: linear-gradient(90deg, #d9ad35, #b98a13 55%, #e0b638);
+  padding: 7px 38px;
+  background: linear-gradient(90deg, #d9ad35, #b78a16 52%, #dfb63d);
   display: flex;
   align-items: center;
-  gap: 32px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, .28);
+  gap: 28px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.24);
   position: relative;
   z-index: 2;
 }
 
 .school-logo {
   width: 205px;
-  min-height: 68px;
+  min-height: 66px;
   border: 0;
-  border-radius: 6px;
+  border-radius: 9px;
   background: #fffaf0;
   color: #171717;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 9px;
   font-size: 27px;
-  font-weight: 500;
+  font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 1px 2px rgba(0,0,0,.1);
+  box-shadow: 0 3px 7px rgba(0,0,0,.16);
+  transition: transform .2s ease, box-shadow .2s ease;
 }
 
+.school-logo:hover { transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,.2); }
 .school-logo span:last-child span { color: #b78a16; }
-.logo-house { font-size: 48px; line-height: 1; color: #b78a16; }
+.logo-house { color: #b78a16; line-height: 1; }
 
 .school-nav {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 28px;
+  gap: 25px;
 }
 
 .nav-item,
@@ -75,16 +77,18 @@ button { font: inherit; }
   color: #111;
   cursor: pointer;
   font-weight: 700;
-  font-size: 17px;
+  font-size: 16px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 5px;
+  gap: 7px;
+  padding: 11px 9px;
+  border-radius: 7px;
+  transition: background .2s ease, color .2s ease, transform .2s ease;
 }
 
 .nav-item:hover,
-.logout-button:hover { color: #fff8df; }
-.nav-item.active { color: #111; }
+.logout-button:hover { background: rgba(255,255,255,.2); color: #fff; transform: translateY(-1px); }
+.nav-item.active { background: rgba(255,255,255,.25); }
 .logout-button { white-space: nowrap; }
 
 .dashboard-main {
@@ -92,29 +96,42 @@ button { font: inherit; }
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 40px 20px 80px;
+  padding: 48px 20px 80px;
+  position: relative;
+  z-index: 1;
 }
 
 .welcome-panel {
-  width: min(695px, 100%);
-  min-height: 286px;
-  padding: 24px 22px 22px;
+  width: min(980px, 100%);
+  padding: 36px 34px 40px;
   text-align: center;
-  background: rgba(255, 251, 240, .94);
-  border-radius: 10px;
-  box-shadow: 0 4px 9px rgba(0,0,0,.22);
+  background: rgba(255, 251, 240, .95);
+  border: 1px solid rgba(183, 138, 22, .25);
+  border-radius: 18px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.16);
+}
+
+.welcome-label {
+  margin: 0 0 8px !important;
+  color: #a4770e;
+  font-size: 13px !important;
+  font-weight: 800;
+  letter-spacing: 2px;
 }
 
 .welcome-panel h1 {
-  margin: 0 0 15px;
-  font-size: 25px;
-  letter-spacing: .2px;
+  margin: 0 0 9px;
+  font-size: clamp(26px, 4vw, 36px);
+  letter-spacing: .5px;
 }
 
-.welcome-panel > p {
-  margin: 0 0 19px;
-  font-size: 21px;
+.student-greeting {
+  margin: 0 0 30px !important;
+  font-size: 20px !important;
+  color: #5f5339;
 }
+
+.student-greeting strong { color: #b78a16; }
 
 .dashboard-actions {
   display: grid;
@@ -123,49 +140,55 @@ button { font: inherit; }
 }
 
 .dashboard-card {
-  min-height: 147px;
-  border: 1px solid #d8c9a4;
-  border-radius: 9px;
-  background: linear-gradient(145deg, #fff6dd, #f7e9c5);
-  color: #111;
+  min-height: 175px;
+  border: 1px solid #dbc68e;
+  border-radius: 13px;
+  padding: 20px 12px;
+  background: linear-gradient(145deg, #fff8e8, #f5e5b9);
+  color: #171717;
   cursor: pointer;
-  box-shadow: 0 3px 5px rgba(0,0,0,.15);
+  box-shadow: 0 5px 12px rgba(0,0,0,.12);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 8px;
-  transition: transform .15s ease, box-shadow .15s ease;
+  gap: 9px;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
 
 .dashboard-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 10px rgba(0,0,0,.2);
+  transform: translateY(-6px);
+  border-color: #b78a16;
+  box-shadow: 0 12px 20px rgba(0,0,0,.18);
 }
 
-.dashboard-card:active { transform: translateY(0); }
+.dashboard-card:active { transform: translateY(-2px); }
+.dashboard-card:focus-visible,
+.nav-item:focus-visible,
+.logout-button:focus-visible,
+.school-logo:focus-visible { outline: 3px solid #171717; outline-offset: 3px; }
 
-.dashboard-icon {
-  color: #b08a25;
-  font-size: 48px;
-  line-height: 1;
-  font-weight: 400;
-}
-
-.dashboard-card strong {
-  font-size: 17px;
-  line-height: 1.12;
-}
+.dashboard-icon { color: #b08a25; line-height: 1; }
+.dashboard-card strong { font-size: 17px; line-height: 1.15; }
+.dashboard-card small { color: #6d6045; font-size: 13px; }
 
 @media (max-width: 900px) {
   .school-navbar { padding: 8px 18px; gap: 12px; flex-wrap: wrap; }
   .school-logo { width: 180px; }
-  .school-nav { order: 3; width: 100%; gap: 18px; justify-content: space-around; }
+  .school-nav { order: 3; width: 100%; gap: 12px; justify-content: space-around; }
   .logout-button { margin-left: auto; }
+  .dashboard-actions { grid-template-columns: repeat(2, 1fr); }
 }
 
-@media (max-width: 650px) {
-  .dashboard-actions { grid-template-columns: repeat(2, 1fr); }
-  .school-navbar { justify-content: space-between; }
+@media (max-width: 600px) {
+  .dashboard-main { padding: 25px 12px 50px; }
+  .welcome-panel { padding: 28px 16px; border-radius: 14px; }
+  .dashboard-actions { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .dashboard-card { min-height: 145px; }
   .nav-item span, .logout-button span { display: none; }
+  .school-nav { gap: 4px; }
+}
+
+@media (max-width: 390px) {
+  .dashboard-actions { grid-template-columns: 1fr; }
 }
