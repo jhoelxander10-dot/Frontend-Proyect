@@ -1,91 +1,64 @@
 import { useNavigate } from "react-router-dom";
+import { authRepository } from "../repositories/authRepository";
 import "./HomePage.css";
 
 function HomePage() {
   const navigate = useNavigate();
+  const user = authRepository.getCurrentUser();
+  const studentName = user?.name ?? "[Nombre del Estudiante]";
+
+  const logout = () => {
+    authRepository.logout();
+    navigate("/login", { replace: true });
+  };
 
   return (
-    <div className="home-page">
-      <header className="home-header">
-        <div className="brand">
-          <div className="brand-logo">MC</div>
-          <div>
-            <h1>MiColegio</h1>
-            <span>Plataforma educativa</span>
-          </div>
-        </div>
+    <div className="school-app">
+      <header className="school-navbar">
+        <button className="school-logo" onClick={() => navigate("/")} aria-label="Ir al inicio">
+          <span className="logo-house">⌂</span>
+          <span>Mi<span>Colegio</span></span>
+        </button>
 
-        <nav className="home-nav">
-          <a href="#inicio">Inicio</a>
-          <a href="#nosotros">Nosotros</a>
-          <a href="#servicios">Servicios</a>
-          <button onClick={() => navigate("/login")}>Iniciar sesión</button>
+        <nav className="school-nav">
+          <button className="nav-item active" onClick={() => navigate("/")}>⌂ <span>Inicio</span></button>
+          <button className="nav-item" onClick={() => navigate("/alumnos")}>♟ <span>Alumnos</span></button>
+          <button className="nav-item" onClick={() => navigate("/cursos")}>▤ <span>Cursos</span></button>
+          <button className="nav-item" onClick={() => navigate("/notas")}>☑ <span>Notas</span></button>
+          <button className="nav-item" onClick={() => navigate("/horarios")}>▣ <span>Horarios</span></button>
         </nav>
+
+        <button className="logout-button" onClick={logout}>⇥ <span>Cerrar Sesión</span></button>
       </header>
 
-      <main>
-        <section id="inicio" className="hero-section">
-          <div className="hero-content">
-            <span className="hero-tag">BIENVENIDO A MICOLEGIO</span>
-            <h2>Todo tu colegio en un solo lugar.</h2>
-            <p>
-              Una plataforma moderna para estudiantes, docentes y familias.
-              Consulta información académica y gestiona tu experiencia escolar
-              de manera sencilla.
-            </p>
-            <div className="hero-actions">
-              <button className="primary-button" onClick={() => navigate("/login")}>
-                Entrar a la plataforma
-              </button>
-              <a className="secondary-button" href="#servicios">Conocer más</a>
-            </div>
-          </div>
+      <main className="dashboard-main">
+        <section className="welcome-panel">
+          <h1>BIENVENIDO A MICOLEGIO</h1>
+          <p>Hola {studentName}</p>
 
-          <div className="hero-card">
-            <div className="card-top">
-              <span>MiColegio</span>
-              <span className="status">● Activo</span>
-            </div>
-            <div className="school-icon">🎓</div>
-            <h3>Tu espacio educativo</h3>
-            <p>Organiza tus actividades y mantente conectado con tu comunidad escolar.</p>
-          </div>
-        </section>
+          <div className="dashboard-actions">
+            <button className="dashboard-card" onClick={() => navigate("/alumnos")}>
+              <span className="dashboard-icon">⌕</span>
+              <strong>Consultar<br />Alumnos</strong>
+            </button>
 
-        <section id="nosotros" className="info-section">
-          <div>
-            <span className="section-tag">NUESTRA PLATAFORMA</span>
-            <h2>Una web pensada para tu colegio</h2>
-          </div>
-          <p>
-            MiColegio reúne en una misma plataforma las herramientas que necesitas
-            para acceder a tu información escolar de forma rápida, clara y segura.
-          </p>
-        </section>
+            <button className="dashboard-card" onClick={() => navigate("/cursos")}>
+              <span className="dashboard-icon">▤</span>
+              <strong>Ver Cursos</strong>
+            </button>
 
-        <section id="servicios" className="services-section">
-          <article className="service-card">
-            <div className="service-icon">📚</div>
-            <h3>Información académica</h3>
-            <p>Consulta tus datos y actividades escolares desde un solo lugar.</p>
-          </article>
-          <article className="service-card">
-            <div className="service-icon">👨‍🏫</div>
-            <h3>Comunidad educativa</h3>
-            <p>Facilita la comunicación entre estudiantes, docentes y familias.</p>
-          </article>
-          <article className="service-card">
-            <div className="service-icon">🔐</div>
-            <h3>Acceso seguro</h3>
-            <p>Ingresa con tu cuenta para acceder a las funciones de la plataforma.</p>
-          </article>
+            <button className="dashboard-card" onClick={() => navigate("/notas")}>
+              <span className="dashboard-icon">▥</span>
+              <strong>Ver Mis Notas</strong>
+            </button>
+
+            <button className="dashboard-card" onClick={() => navigate("/horarios")}>
+              <span className="dashboard-icon">▦</span>
+              <strong>Horarios</strong>
+            </button>
+          </div>
         </section>
       </main>
-
-      <footer className="home-footer">
-        <strong>MiColegio</strong>
-        <span>Plataforma educativa</span>
-      </footer>
     </div>
   );
 }
