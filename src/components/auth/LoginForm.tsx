@@ -50,23 +50,50 @@ function LoginForm({ error, onSubmit, onRegister }: LoginFormProps) {
 
   return (
     <div className="login-page">
-      <div className="login-top-bar" />
       <div className="login-photo-panel" aria-hidden="true">
         <div className="login-photo-overlay" />
       </div>
 
+      <header className="portal-header">
+        <span>PORTAL EDUCATIVO</span>
+        <span>Mi Colegio</span>
+      </header>
+
       <main className="login-layout">
         <section className="login-brand-panel">
-          <div className="school-mark" aria-hidden="true">
-            <span>ED</span>
+          <div className="brand-content">
+            <span className="brand-kicker">COMUNIDAD EDUCATIVA</span>
+            <h1>Bienvenido</h1>
+            <h2>al Portal Estudiantil</h2>
+            <p className="brand-message">
+              Tu esfuerzo de hoy construye tu futuro.
+            </p>
+            <div className="brand-line" />
+
+            <div className="brand-features">
+              <div className="brand-feature">
+                <span className="feature-icon">▣</span>
+                <div>
+                  <strong>Aprende</strong>
+                  <span>cada día</span>
+                </div>
+              </div>
+              <div className="brand-feature">
+                <span className="feature-icon">●</span>
+                <div>
+                  <strong>Crece</strong>
+                  <span>con valores</span>
+                </div>
+              </div>
+              <div className="brand-feature">
+                <span className="feature-icon">◆</span>
+                <div>
+                  <strong>Alcanza</strong>
+                  <span>tus metas</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <p className="brand-kicker">COMUNIDAD EDUCATIVA</p>
-          <h1>Mi Colegio</h1>
-          <p className="brand-message">
-            Un espacio digital para estudiantes, docentes y familias.
-          </p>
-          <div className="brand-line" />
-          <span className="brand-location">PORTAL ACADÉMICO</span>
         </section>
 
         <form className="login-card" onSubmit={handleSubmit}>
@@ -76,7 +103,7 @@ function LoginForm({ error, onSubmit, onRegister }: LoginFormProps) {
             <p>
               {isRegistering
                 ? "Registra tus datos para acceder al portal académico."
-                : "Ingresa para consultar tu información académica."}
+                : "Accede a tu cuenta estudiantil"}
             </p>
           </div>
 
@@ -100,7 +127,7 @@ function LoginForm({ error, onSubmit, onRegister }: LoginFormProps) {
           )}
 
           <div className="form-group">
-            <label htmlFor="carnet">Carnet de identidad</label>
+            <label htmlFor="carnet">Carnet o usuario</label>
             <div className="input-wrapper">
               <span className="input-icon" aria-hidden="true">👤</span>
               <input
@@ -154,9 +181,11 @@ function LoginForm({ error, onSubmit, onRegister }: LoginFormProps) {
           </button>
 
           <div className="login-divider"><span>Portal Académico</span></div>
-          <p className="login-footer">Sistema académico estudiantil</p>
+          <p className="login-footer">Estudia · Aprende · Supera tus límites</p>
         </form>
       </main>
+
+      <footer className="portal-footer">Educación · Disciplina · Valores</footer>
     </div>
   );
 }
