@@ -26,7 +26,7 @@ function LoginForm({ error, onSubmit, onRegister }: LoginFormProps) {
     if (!normalizedCarnet || !password) return;
 
     if (isRegistering) {
-      const result = onRegister({ name, carnet: normalizedCarnet, password });
+      const result = onRegister({ name: name.trim(), carnet: normalizedCarnet, password });
       if (result.ok) {
         setRegisterMessage(result.message + " Ahora puedes iniciar sesión.");
         setIsRegistering(false);
@@ -51,34 +51,32 @@ function LoginForm({ error, onSubmit, onRegister }: LoginFormProps) {
   return (
     <div className="login-page">
       <div className="login-top-bar" />
-      <div className="login-background-shape shape-one" />
-      <div className="login-background-shape shape-two" />
+      <div className="login-photo-panel" aria-hidden="true">
+        <div className="login-photo-overlay" />
+      </div>
 
       <main className="login-layout">
         <section className="login-brand-panel">
-          <div className="brand-logo-wrap">
-            <img
-              src="https://donboscosucre.edu.bo/logo-white.png"
-              alt="Logo de la Unidad Educativa Don Bosco Sucre"
-            />
+          <div className="school-mark" aria-hidden="true">
+            <span>ED</span>
           </div>
-          <p className="brand-kicker">COMUNIDAD EDUCATIVA PASTORAL</p>
-          <h1>Don Bosco Sucre</h1>
+          <p className="brand-kicker">COMUNIDAD EDUCATIVA</p>
+          <h1>Mi Colegio</h1>
           <p className="brand-message">
-            Formación integral, valores y excelencia académica al servicio de nuestros estudiantes.
+            Un espacio digital para estudiantes, docentes y familias.
           </p>
           <div className="brand-line" />
-          <span className="brand-location">SUCRE · BOLIVIA</span>
+          <span className="brand-location">PORTAL ACADÉMICO</span>
         </section>
 
         <form className="login-card" onSubmit={handleSubmit}>
           <div className="login-card-header">
-            <span className="institution-name">DON BOSCO SUCRE</span>
+            <span className="institution-name">SISTEMA EDUCATIVO</span>
             <h2>{isRegistering ? "Crear cuenta" : "Iniciar sesión"}</h2>
             <p>
               {isRegistering
-                ? "Crea tu cuenta para acceder al portal académico."
-                : "Accede a tu información académica."}
+                ? "Registra tus datos para acceder al portal académico."
+                : "Ingresa para consultar tu información académica."}
             </p>
           </div>
 
@@ -156,7 +154,7 @@ function LoginForm({ error, onSubmit, onRegister }: LoginFormProps) {
           </button>
 
           <div className="login-divider"><span>Portal Académico</span></div>
-          <p className="login-footer">Sistema académico estudiantil · Don Bosco Sucre</p>
+          <p className="login-footer">Sistema académico estudiantil</p>
         </form>
       </main>
     </div>
