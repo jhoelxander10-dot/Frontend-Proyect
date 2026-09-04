@@ -1,1 +1,359 @@
-:root{--blue:#005baa;--blue-dark:#003f7d;--yellow:#ffd200;--ink:#172033;--muted:#6b7280}*{box-sizing:border-box}body{margin:0}.login-page{min-height:100vh;position:relative;display:flex;align-items:center;justify-content:center;padding:28px;overflow:hidden;background:linear-gradient(135deg,#003f7d 0%,#005baa 58%,#0072c6 100%)}.login-top-bar{position:absolute;top:0;left:0;right:0;height:7px;background:var(--yellow);z-index:4}.login-background-shape{position:absolute;border-radius:50%;border:2px solid rgba(255,210,0,.18);pointer-events:none}.shape-one{width:520px;height:520px;left:-300px;bottom:-300px}.shape-two{width:430px;height:430px;right:-250px;top:-250px;border-color:rgba(255,255,255,.12)}.login-layout{width:min(900px,100%);min-height:550px;display:grid;grid-template-columns:.95fr 1.05fr;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 25px 65px rgba(0,0,0,.32);position:relative;z-index:2}.login-brand-panel{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:45px 35px;color:#fff;background:linear-gradient(160deg,#003f7d,#005baa 70%,#0072c6);position:relative}.login-brand-panel:after{content:"";position:absolute;right:-35px;bottom:-35px;width:125px;height:125px;border-radius:50%;background:rgba(255,210,0,.12)}.brand-logo-wrap{width:128px;height:128px;display:flex;align-items:center;justify-content:center;margin-bottom:22px;border-radius:50%;background:#fff;border:6px solid var(--yellow);box-shadow:0 10px 28px rgba(0,0,0,.2)}.brand-logo-wrap img{width:104px;height:104px;object-fit:contain}.brand-kicker{margin:0 0 8px;font-size:10px;font-weight:800;letter-spacing:1.8px;opacity:.9}.login-brand-panel h1{margin:0;font-size:32px;font-weight:800}.brand-message{max-width:310px;margin:15px 0 24px;line-height:1.55;font-size:14px;opacity:.9}.brand-line{width:55px;height:4px;margin-bottom:14px;border-radius:5px;background:var(--yellow)}.brand-location{font-size:11px;font-weight:800;letter-spacing:2px}.login-card{align-self:center;width:100%;padding:50px 48px;background:#fff}.login-card-header{margin-bottom:30px}.institution-name{display:block;margin-bottom:7px;color:var(--blue);font-size:11px;font-weight:900;letter-spacing:1.4px}.login-card-header h2{margin:0;color:var(--ink);font-size:30px;font-weight:800}.login-card-header p{margin:8px 0 0;color:var(--muted);font-size:14px;line-height:1.45}.form-group{margin-bottom:18px}.form-group label{display:block;margin-bottom:8px;color:#263247;font-size:13px;font-weight:700}.input-wrapper{display:flex;align-items:center;width:100%;padding:0 14px;border:1px solid #d7dee8;border-radius:7px;background:#fff;transition:.2s}.input-wrapper:hover{border-color:#7fa9d1}.input-wrapper:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,91,170,.1)}.input-icon{width:22px;margin-right:8px;font-size:15px;opacity:.75}.input-wrapper input{width:100%;padding:13px 0;border:0;outline:0;background:transparent;color:var(--ink);font-size:14px}.input-wrapper input::placeholder{color:#9aa5b4}.login-error,.login-success{margin-bottom:17px;padding:10px 12px;border-radius:7px;font-size:12px;text-align:center}.login-error{background:#fff6e8;border:1px solid #efca8b;color:#8c5a08}.login-success{background:#edf7ff;border:1px solid #a5c9e8;color:var(--blue-dark)}.login-button{width:100%;padding:13px 16px;display:flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:6px;background:var(--blue);color:#fff;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 6px 14px rgba(0,91,170,.22);transition:.2s}.login-button:hover{background:var(--blue-dark);transform:translateY(-1px)}.login-button:active{transform:scale(.99)}.button-arrow{font-size:18px}.mode-button{width:100%;margin-top:13px;padding:9px;border:0;background:transparent;color:var(--blue);font-size:12px;font-weight:800;cursor:pointer}.mode-button:hover{color:#9a7800;text-decoration:underline}.login-divider{display:flex;align-items:center;gap:10px;margin:24px 0 12px;color:#9aa2ad;font-size:10px;text-transform:uppercase;letter-spacing:1px}.login-divider:before,.login-divider:after{content:"";flex:1;height:1px;background:#e2e6eb}.login-footer{margin:0;text-align:center;color:#9aa2ad;font-size:10px;line-height:1.5}.login-button:focus-visible,.mode-button:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}@media(max-width:760px){.login-layout{grid-template-columns:1fr;max-width:470px;min-height:auto}.login-brand-panel{padding:30px 25px}.brand-logo-wrap{width:92px;height:92px;margin-bottom:14px;border-width:4px}.brand-logo-wrap img{width:76px;height:76px}.login-brand-panel h1{font-size:26px}.brand-message{margin:10px 0 16px}.login-card{padding:34px 28px 38px}}@media(max-width:430px){.login-page{padding:15px}.login-card{padding:30px 20px 32px}}
+:root {
+  --blue: #075ca8;
+  --blue-dark: #043d72;
+  --yellow: #f5c400;
+  --ink: #172033;
+  --muted: #6b7280;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+
+.login-page {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  overflow: hidden;
+  background: #eef3f8;
+}
+
+.login-top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: var(--yellow);
+  z-index: 5;
+}
+
+.login-photo-panel {
+  position: absolute;
+  inset: 0;
+  background-image: url("https://identicole.pe/wp-content/uploads/2023/12/Que-colegios-de-Lima-tienen-el-bachillerato-internacional-800x500.jpg");
+  background-size: cover;
+  background-position: center;
+  filter: saturate(.9);
+  transform: scale(1.03);
+}
+
+.login-photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(4, 34, 65, .84) 0%, rgba(4, 34, 65, .55) 42%, rgba(4, 34, 65, .28) 100%);
+}
+
+.login-layout {
+  width: min(920px, 100%);
+  min-height: 550px;
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  background: rgba(255, 255, 255, .98);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, .35);
+  position: relative;
+  z-index: 2;
+}
+
+.login-brand-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 45px 35px;
+  color: #fff;
+  background: linear-gradient(160deg, rgba(3, 53, 99, .97), rgba(7, 92, 168, .94));
+  position: relative;
+}
+
+.login-brand-panel::before {
+  content: "";
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .12);
+  top: -105px;
+  left: -105px;
+}
+
+.login-brand-panel::after {
+  content: "";
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: rgba(245, 196, 0, .13);
+  right: -65px;
+  bottom: -65px;
+}
+
+.school-mark {
+  width: 108px;
+  height: 108px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+  border-radius: 50%;
+  background: #fff;
+  border: 5px solid var(--yellow);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, .2);
+  position: relative;
+  z-index: 1;
+}
+
+.school-mark span {
+  color: var(--blue);
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -2px;
+}
+
+.brand-kicker {
+  margin: 0 0 8px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  opacity: .9;
+  position: relative;
+  z-index: 1;
+}
+
+.login-brand-panel h1 {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 800;
+  position: relative;
+  z-index: 1;
+}
+
+.brand-message {
+  max-width: 300px;
+  margin: 15px 0 24px;
+  line-height: 1.55;
+  font-size: 14px;
+  opacity: .9;
+  position: relative;
+  z-index: 1;
+}
+
+.brand-line {
+  width: 55px;
+  height: 4px;
+  margin-bottom: 14px;
+  border-radius: 5px;
+  background: var(--yellow);
+  position: relative;
+  z-index: 1;
+}
+
+.brand-location {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 1;
+}
+
+.login-card {
+  align-self: center;
+  width: 100%;
+  padding: 52px 50px;
+  background: #fff;
+}
+
+.login-card-header { margin-bottom: 30px; }
+
+.institution-name {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+.login-card-header h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.login-card-header p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.form-group { margin-bottom: 18px; }
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #263247;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0 14px;
+  border: 1px solid #d7dee8;
+  border-radius: 7px;
+  background: #fff;
+  transition: .2s;
+}
+
+.input-wrapper:hover { border-color: #79a6d0; }
+
+.input-wrapper:focus-within {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(7, 92, 168, .1);
+}
+
+.input-icon {
+  width: 22px;
+  margin-right: 8px;
+  font-size: 15px;
+  opacity: .75;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 13px 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.input-wrapper input::placeholder { color: #9aa5b4; }
+
+.login-error,
+.login-success {
+  margin-bottom: 17px;
+  padding: 10px 12px;
+  border-radius: 7px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.login-error {
+  background: #fff6e8;
+  border: 1px solid #efca8b;
+  color: #8c5a08;
+}
+
+.login-success {
+  background: #edf7ff;
+  border: 1px solid #a5c9e8;
+  color: var(--blue-dark);
+}
+
+.login-button {
+  width: 100%;
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(7, 92, 168, .22);
+  transition: .2s;
+}
+
+.login-button:hover {
+  background: var(--blue-dark);
+  transform: translateY(-1px);
+}
+
+.login-button:active { transform: scale(.99); }
+.button-arrow { font-size: 18px; }
+
+.mode-button {
+  width: 100%;
+  margin-top: 13px;
+  padding: 9px;
+  border: 0;
+  background: transparent;
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.mode-button:hover {
+  color: #9a7800;
+  text-decoration: underline;
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 24px 0 12px;
+  color: #9aa2ad;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e2e6eb;
+}
+
+.login-footer {
+  margin: 0;
+  text-align: center;
+  color: #9aa2ad;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.login-button:focus-visible,
+.mode-button:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+@media (max-width: 760px) {
+  .login-page { padding: 15px; }
+
+  .login-layout {
+    grid-template-columns: 1fr;
+    max-width: 470px;
+    min-height: auto;
+  }
+
+  .login-brand-panel { padding: 30px 25px; }
+  .school-mark { width: 88px; height: 88px; margin-bottom: 15px; }
+  .school-mark span { font-size: 23px; }
+  .login-brand-panel h1 { font-size: 27px; }
+  .brand-message { margin: 10px 0 16px; }
+  .login-card { padding: 34px 28px 38px; }
+}
+
+@media (max-width: 430px) {
+  .login-card { padding: 30px 20px 32px; }
+}
