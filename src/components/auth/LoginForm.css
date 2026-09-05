@@ -20,11 +20,11 @@ body { margin: 0; }
   background: #173b60;
 }
 
-/* Fotografía de un colegio como fondo de toda la página */
+/* Fotografía realista de un colegio como fondo */
 .login-photo-panel {
   position: absolute;
   inset: 0;
-  background-image: url("https://identicole.pe/wp-content/uploads/2023/12/Que-colegios-de-Lima-tienen-el-bachillerato-internacional-800x500.jpg");
+  background-image: url("https://images.pexels.com/photos/5896836/pexels-photo-5896836.jpeg?cs=srgb&dl=pexels-mary-taylor-5896836.jpg&fm=jpg");
   background-size: cover;
   background-position: center;
   filter: saturate(.95) contrast(1.05);
