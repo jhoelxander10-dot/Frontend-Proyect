@@ -1,28 +1,18 @@
-import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { authRepository } from "../repositories/authRepository";
+import { entrevistasRepository } from "../repositories/entrevistasRepository";
 import "./EntrevistaPage.css";
 
 function EntrevistaPage() {
   const navigate = useNavigate();
-  const [submitted, setSubmitted] = useState(false);
+  const user = authRepository.getCurrentUser();
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
+  if (!user) {
+    navigate("/login", { replace: true });
+    return null;
+  }
 
-    const solicitud = {
-      estudiante: form.get("estudiante"),
-      motivo: form.get("motivo"),
-      fecha: form.get("fecha"),
-      horario: form.get("horario"),
-      mensaje: form.get("mensaje"),
-      creadaEn: new Date().toISOString(),
-    };
-
-    localStorage.setItem("entrevista_solicitud", JSON.stringify(solicitud));
-    setSubmitted(true);
-    event.currentTarget.reset();
-  };
+  const entrevistas = entrevistasRepository.getForStudent(user.carnet);
 
   return (
     <main className="interview-page">
@@ -35,57 +25,55 @@ function EntrevistaPage() {
           <span className="interview-icon">💬</span>
           <div>
             <p className="interview-kicker">PORTAL ACADÉMICO</p>
-            <h1>Solicitar entrevista</h1>
-            <p>Envía una solicitud para coordinar una entrevista con la institución.</p>
+            <h1>Mis Entrevistas</h1>
+            <p>
+              Aquí puedes consultar las materias o motivos por los que la institución te ha llamado a una entrevista.
+            </p>
           </div>
         </div>
 
-        <form className="interview-form" onSubmit={handleSubmit}>
-          <label>
-            Nombre del estudiante
-            <input name="estudiante" type="text" placeholder="Escribe tu nombre" required />
-          </label>
+        <div className="student-interview-info">
+          <strong>{user.name}</strong>
+          <span>Carnet: {user.carnet}</span>
+        </div>
 
-          <label>
-            Motivo de la entrevista
-            <select name="motivo" defaultValue="" required>
-              <option value="" disabled>Selecciona un motivo</option>
-              <option value="academico">Tema académico</option>
-              <option value="notas">Consulta sobre notas</option>
-              <option value="convivencia">Convivencia escolar</option>
-              <option value="otro">Otro motivo</option>
-            </select>
-          </label>
-
-          <div className="interview-row">
-            <label>
-              Fecha preferida
-              <input name="fecha" type="date" required />
-            </label>
-            <label>
-              Horario preferido
-              <select name="horario" defaultValue="" required>
-                <option value="" disabled>Selecciona un horario</option>
-                <option value="manana">08:00 - 10:00</option>
-                <option value="media-manana">10:00 - 12:00</option>
-                <option value="tarde">14:00 - 16:00</option>
-              </select>
-            </label>
+        {entrevistas.length === 0 ? (
+          <div className="interview-empty">
+            <span>✓</span>
+            <h2>No tienes entrevistas asignadas</h2>
+            <p>Cuando la institución te asigne una entrevista, aparecerá aquí con la materia, motivo, fecha y hora.</p>
           </div>
+        ) : (
+          <div className="interview-list">
+            {entrevistas.map((entrevista) => (
+              <article className="assigned-interview" key={entrevista.id}>
+                <div className="assigned-interview-header">
+                  <div>
+                    <span className="interview-label">MATERIA</span>
+                    <h2>{entrevista.materia}</h2>
+                  </div>
+                  <span className="interview-status">{entrevista.estado}</span>
+                </div>
 
-          <label>
-            Mensaje adicional
-            <textarea name="mensaje" rows={4} placeholder="Cuéntanos brevemente el motivo de tu solicitud" />
-          </label>
+                <div className="interview-details">
+                  <div><span>Motivo</span><strong>{entrevista.motivo}</strong></div>
+                  <div><span>Fecha</span><strong>{entrevista.fecha}</strong></div>
+                  <div><span>Hora</span><strong>{entrevista.hora}</strong></div>
+                  <div><span>Lugar</span><strong>{entrevista.lugar}</strong></div>
+                </div>
 
-          <button className="interview-submit" type="submit">Enviar solicitud</button>
-        </form>
-
-        {submitted && (
-          <div className="interview-success" role="status">
-            ✓ Solicitud registrada correctamente. La institución podrá revisar tus datos para coordinar la entrevista.
+                <div className="interview-observation">
+                  <span>Información</span>
+                  <p>{entrevista.observacion}</p>
+                </div>
+              </article>
+            ))}
           </div>
         )}
+
+        <p className="interview-demo-note">
+          Las entrevistas mostradas son asignadas por la institución. El estudiante solo consulta la información correspondiente a su cuenta.
+        </p>
       </section>
     </main>
   );
