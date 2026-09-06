@@ -28,6 +28,7 @@ export const authRepository = {
       id: foundUser.id,
       name: foundUser.name,
       carnet: foundUser.carnet,
+      curso: foundUser.curso,
       role: foundUser.role,
     };
 
@@ -56,6 +57,7 @@ export const authRepository = {
       id: `student-${Date.now()}`,
       name,
       carnet,
+      curso: "6A Secundaria",
       password,
       role: "USUARIO",
     };
@@ -63,7 +65,7 @@ export const authRepository = {
     const savedUsers = storageService.get<UserRecord[]>(USERS_KEY) ?? [];
     storageService.set<UserRecord[]>(USERS_KEY, [...savedUsers, newUser]);
 
-    return { ok: true, message: "Cuenta institucional creada correctamente." };
+    return { ok: true, message: "Cuenta creada correctamente." };
   },
 
   logout(): void {
