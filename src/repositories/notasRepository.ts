@@ -9,18 +9,26 @@ const NOTES_KEY = "student_notes";
 
 const defaultSubjects = [
   "Matemática",
-  "Lenguaje",
-  "Inglés",
-  "Programación",
-  "Ciencias Sociales",
   "Física",
+  "Laboratorio de Química",
   "Química",
+  "Literatura",
+  "Gramática",
+  "Sociales",
+  "Biología",
+  "Artes Plásticas",
+  "Inglés",
+  "Cálculo",
+  "Filosofía",
+  "Laboratorio de Física",
+  "Religión",
+  "Música",
   "Educación Física",
 ];
 
 const defaultNotes = defaultSubjects.map((materia, index) => ({
   materia,
-  calificacion: 75 + (index * 3) % 21,
+  calificacion: 70 + ((index * 4) % 26),
 }));
 
 export const notasRepository = {
