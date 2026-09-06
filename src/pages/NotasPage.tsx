@@ -24,9 +24,9 @@ function NotasPage() {
       <section className="section-card">
         <div className="student-header">
           <div>
-            <span className="section-kicker">PORTAL ACADÉMICO DON BOSCO</span>
+            <span className="section-kicker">PORTAL ACADÉMICO</span>
             <h1>Mis Notas</h1>
-            <p>Estudiante: <strong>{user.name}</strong> · Carnet: {user.carnet}</p>
+            <p><strong>{user.name}</strong> · {user.curso} · Carnet: {user.carnet}</p>
           </div>
           <div className="average-card">
             <span>Promedio</span>
@@ -34,25 +34,28 @@ function NotasPage() {
           </div>
         </div>
 
-        <div className="table-wrap">
-          <table>
-            <thead>
-              <tr><th>Materia</th><th>Calificación</th></tr>
-            </thead>
-            <tbody>
-              {notas.map((nota) => (
-                <tr key={nota.materia}>
-                  <td>{nota.materia}</td>
-                  <td><strong>{nota.calificacion}</strong></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <p className="demo-note">
-          Datos de demostración del proyecto. En una versión conectada al sistema real, las calificaciones serían registradas por la institución.
-        </p>
+        {notas.length > 0 ? (
+          <div className="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Materia</th><th>Calificación</th></tr>
+              </thead>
+              <tbody>
+                {notas.map((nota) => (
+                  <tr key={nota.materia}>
+                    <td>{nota.materia}</td>
+                    <td><strong>{nota.calificacion}</strong></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="empty-state">
+            <h2>No hay calificaciones registradas</h2>
+            <p>Cuando la institución registre tus notas, aparecerán en esta sección.</p>
+          </div>
+        )}
       </section>
     </main>
   );
