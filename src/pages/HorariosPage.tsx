@@ -2,26 +2,41 @@ import { useNavigate } from "react-router-dom";
 import "./SectionPage.css";
 
 const horario = [
-  ["Lunes", "Matemática", "08:00 - 09:00", "Aula 3A"],
-  ["Lunes", "Lengua Castellana", "09:00 - 10:00", "Aula 3A"],
-  ["Lunes", "Inglés", "10:15 - 11:15", "Aula 3A"],
-  ["Lunes", "Ciencias Naturales", "11:15 - 12:15", "Laboratorio"],
-  ["Martes", "Historia y Geografía", "08:00 - 09:00", "Aula 3A"],
-  ["Martes", "Física", "09:00 - 10:00", "Laboratorio"],
-  ["Martes", "Programación", "10:15 - 11:15", "Sala de Computación"],
-  ["Martes", "Educación Física", "11:15 - 12:15", "Cancha"],
-  ["Miércoles", "Química", "08:00 - 09:00", "Laboratorio"],
-  ["Miércoles", "Matemática", "09:00 - 10:00", "Aula 3A"],
-  ["Miércoles", "Lengua Castellana", "10:15 - 11:15", "Aula 3A"],
-  ["Miércoles", "Inglés", "11:15 - 12:15", "Aula 3A"],
-  ["Jueves", "Programación", "08:00 - 09:00", "Sala de Computación"],
-  ["Jueves", "Física", "09:00 - 10:00", "Laboratorio"],
-  ["Jueves", "Ciencias Naturales", "10:15 - 11:15", "Laboratorio"],
-  ["Jueves", "Educación Física", "11:15 - 12:15", "Cancha"],
-  ["Viernes", "Matemática", "08:00 - 09:00", "Aula 3A"],
-  ["Viernes", "Historia y Geografía", "09:00 - 10:00", "Aula 3A"],
-  ["Viernes", "Química", "10:15 - 11:15", "Laboratorio"],
-  ["Viernes", "Programación", "11:15 - 12:15", "Sala de Computación"],
+  ["Lunes", "Matemática", "08:00 - 08:40", "Prof. Arnaldo"],
+  ["Lunes", "Matemática", "08:40 - 09:20", "Prof. Arnaldo"],
+  ["Lunes", "Matemática", "09:20 - 10:00", "Prof. Arnaldo"],
+  ["Lunes", "Literatura", "10:00 - 10:40", "Prof. Mar. Isabel"],
+  ["Lunes", "Gramática", "11:00 - 11:40", "Prof. Roxana"],
+  ["Lunes", "Química", "11:40 - 12:20", "Prof. Erick"],
+  ["Lunes", "Química", "12:20 - 12:55", "Prof. Erick"],
+  ["Martes", "Física", "08:00 - 08:40", "Prof. Ronald"],
+  ["Martes", "Física", "08:40 - 09:20", "Prof. Ronald"],
+  ["Martes", "Laboratorio de Química", "09:20 - 10:00", "Prof. Erick"],
+  ["Martes", "Laboratorio de Química", "10:00 - 10:40", "Prof. Erick"],
+  ["Martes", "Matemática", "11:00 - 11:40", "Prof. Arnaldo"],
+  ["Martes", "Matemática", "11:40 - 12:20", "Prof. Arnaldo"],
+  ["Martes", "Sociales", "12:20 - 12:55", "Prof. Ibert"],
+  ["Miércoles", "Matemática", "08:00 - 08:40", "Prof. Arnaldo"],
+  ["Miércoles", "Matemática", "08:40 - 09:20", "Prof. Arnaldo"],
+  ["Miércoles", "Química", "09:20 - 10:00", "Prof. Erick"],
+  ["Miércoles", "Química", "10:00 - 10:40", "Prof. Erick"],
+  ["Miércoles", "Biología", "11:00 - 11:40", "Prof. Jhissel"],
+  ["Miércoles", "Artes Plásticas", "11:40 - 12:20", "Prof. Jancko"],
+  ["Miércoles", "Artes Plásticas", "12:20 - 12:55", "Prof. Jancko"],
+  ["Jueves", "Inglés", "08:00 - 08:40", "Prof. Ricardo"],
+  ["Jueves", "Inglés", "08:40 - 09:20", "Prof. Ricardo"],
+  ["Jueves", "Cálculo", "09:20 - 10:00", "Prof. Arnaldo"],
+  ["Jueves", "Cálculo", "10:00 - 10:40", "Prof. Arnaldo"],
+  ["Jueves", "Filosofía", "11:00 - 11:40", "Prof. Patricia"],
+  ["Jueves", "Laboratorio de Física", "11:40 - 12:20", "Prof. Gonzalo"],
+  ["Jueves", "Laboratorio de Física", "12:20 - 12:55", "Prof. Gonzalo"],
+  ["Viernes", "Física", "08:00 - 08:40", "Prof. Ronald"],
+  ["Viernes", "Física", "08:40 - 09:20", "Prof. Ronald"],
+  ["Viernes", "Religión", "09:20 - 10:00", "Prof. Mildred"],
+  ["Viernes", "Religión", "10:00 - 10:40", "Prof. Mildred"],
+  ["Viernes", "Música", "11:00 - 11:40", "Prof. Limber"],
+  ["Viernes", "Educación Física", "11:40 - 12:20", "Prof. Ariel"],
+  ["Viernes", "Educación Física", "12:20 - 12:55", "Prof. Soledad"],
 ];
 
 function HorariosPage() {
@@ -31,17 +46,17 @@ function HorariosPage() {
     <main className="section-page">
       <button className="back-button" onClick={() => navigate("/")}>← Volver al inicio</button>
       <section className="section-card">
-        <h1>Horario semanal</h1>
-        <p>Consulta tus clases, horarios y aulas asignadas durante la semana.</p>
+        <h1>Horario semanal - 6A Secundaria</h1>
+        <p>Consulta tus clases, horarios y profesores asignados durante la semana.</p>
         <div className="table-wrap">
           <table>
             <thead>
-              <tr><th>Día</th><th>Materia</th><th>Horario</th><th>Aula</th></tr>
+              <tr><th>Día</th><th>Materia</th><th>Horario</th><th>Profesor</th></tr>
             </thead>
             <tbody>
-              {horario.map(([dia, materia, hora, aula], index) => (
-                <tr key={`${dia}-${materia}-${index}`}>
-                  <td>{dia}</td><td>{materia}</td><td>{hora}</td><td>{aula}</td>
+              {horario.map(([dia, materia, hora, profesor], index) => (
+                <tr key={`${dia}-${materia}-${hora}-${index}`}>
+                  <td>{dia}</td><td>{materia}</td><td>{hora}</td><td>{profesor}</td>
                 </tr>
               ))}
             </tbody>
