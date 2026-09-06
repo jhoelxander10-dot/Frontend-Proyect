@@ -26,22 +26,20 @@ function EntrevistaPage() {
           <div>
             <p className="interview-kicker">PORTAL ACADÉMICO</p>
             <h1>Mis Entrevistas</h1>
-            <p>
-              Aquí puedes consultar las materias o motivos por los que la institución te ha llamado a una entrevista.
-            </p>
+            <p>Consulta las materias o motivos por los que la institución te ha citado.</p>
           </div>
         </div>
 
         <div className="student-interview-info">
           <strong>{user.name}</strong>
-          <span>Carnet: {user.carnet}</span>
+          <span>{user.curso} · Carnet: {user.carnet}</span>
         </div>
 
         {entrevistas.length === 0 ? (
           <div className="interview-empty">
             <span>✓</span>
             <h2>No tienes entrevistas asignadas</h2>
-            <p>Cuando la institución te asigne una entrevista, aparecerá aquí con la materia, motivo, fecha y hora.</p>
+            <p>Las nuevas citaciones aparecerán aquí cuando sean asignadas por la institución.</p>
           </div>
         ) : (
           <div className="interview-list">
@@ -70,10 +68,6 @@ function EntrevistaPage() {
             ))}
           </div>
         )}
-
-        <p className="interview-demo-note">
-          Las entrevistas mostradas son asignadas por la institución. El estudiante solo consulta la información correspondiente a su cuenta.
-        </p>
       </section>
     </main>
   );
