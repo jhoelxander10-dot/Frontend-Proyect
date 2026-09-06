@@ -4,11 +4,10 @@ import { entrevistasRepository } from "../repositories/entrevistasRepository";
 import { notasRepository } from "../repositories/notasRepository";
 import "./HomePage.css";
 
-type IconName = "home" | "courses" | "notes" | "schedule" | "interview" | "logout";
+type IconName = "courses" | "notes" | "schedule" | "interview" | "logout";
 
 function Icon({ name }: { name: IconName }) {
   const paths: Record<IconName, string> = {
-    home: "M3 10.5 12 3l9 7.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 19.5v-9ZM9 21v-6h6v6",
     courses: "M4 5.5 12 3l8 2.5v13L12 21l-8-2.5v-13ZM4 5.5 12 8l8-2.5M12 8v13",
     notes: "M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2ZM7 8h10M7 12h10M7 16h6",
     schedule: "M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2ZM7 2v4M17 2v4M3 10h18M7 14h.01M12 14h.01M17 14h.01M7 18h.01M12 18h.01M17 18h.01",
@@ -43,20 +42,15 @@ function HomePage() {
 
   return (
     <div className="school-app">
-      <header className="school-navbar">
-        <button className="school-logo" onClick={() => navigate("/")} aria-label="Ir al inicio">
-          <span>Portal Académico</span>
+      <header className="school-header">
+        <div>
+          <span className="header-label">PORTAL ACADÉMICO</span>
+          <strong>Portal del Estudiante</strong>
+        </div>
+        <button className="logout-button" onClick={logout}>
+          <Icon name="logout" />
+          <span>Cerrar sesión</span>
         </button>
-
-        <nav className="school-nav" aria-label="Navegación principal">
-          <button className="nav-item active" onClick={() => navigate("/")}><Icon name="home" /> <span>Inicio</span></button>
-          <button className="nav-item" onClick={() => navigate("/cursos")}><Icon name="courses" /> <span>Materias</span></button>
-          <button className="nav-item" onClick={() => navigate("/notas")}><Icon name="notes" /> <span>Notas</span></button>
-          <button className="nav-item" onClick={() => navigate("/horarios")}><Icon name="schedule" /> <span>Horario</span></button>
-          <button className="nav-item" onClick={() => navigate("/entrevista")}><Icon name="interview" /> <span>Entrevistas</span></button>
-        </nav>
-
-        <button className="logout-button" onClick={logout}><Icon name="logout" /> <span>Cerrar sesión</span></button>
       </header>
 
       <main className="dashboard-main">
