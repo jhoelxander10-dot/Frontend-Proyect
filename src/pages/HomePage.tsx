@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { authRepository } from "../repositories/authRepository";
+import { entrevistasRepository } from "../repositories/entrevistasRepository";
+import { notasRepository } from "../repositories/notasRepository";
 import "./HomePage.css";
 
 type IconName = "home" | "courses" | "notes" | "schedule" | "interview" | "logout";
@@ -20,7 +22,19 @@ function Icon({ name }: { name: IconName }) {
 function HomePage() {
   const navigate = useNavigate();
   const user = authRepository.getCurrentUser();
-  const studentName = user?.name ?? "Estudiante";
+
+  if (!user) {
+    navigate("/login", { replace: true });
+    return null;
+  }
+
+  const notas = notasRepository.getForStudent(user.carnet);
+  const entrevistas = entrevistasRepository.getForStudent(user.carnet);
+  const promedio = notas.length
+    ? (notas.reduce((total, nota) => total + nota.calificacion, 0) / notas.length).toFixed(1)
+    : "0.0";
+  const pendingInterviews = entrevistas.filter((entrevista) => entrevista.estado.toLowerCase() === "pendiente");
+  const nextInterview = [...pendingInterviews].sort((a, b) => a.fecha.localeCompare(b.fecha) || a.hora.localeCompare(b.hora))[0];
 
   const logout = () => {
     authRepository.logout();
@@ -48,8 +62,15 @@ function HomePage() {
       <main className="dashboard-main">
         <section className="welcome-panel">
           <p className="welcome-label">PORTAL ACADÉMICO</p>
-          <h1>Bienvenido a tu espacio estudiantil</h1>
-          <p className="student-greeting">Hola <strong>{studentName}</strong>, consulta aquí la información más importante de tu vida académica.</p>
+          <h1>Bienvenido, {user.name}</h1>
+          <p className="student-greeting">Aquí puedes consultar de forma rápida tu información académica y las actividades que la institución tiene asignadas para ti.</p>
+
+          <div className="student-summary" aria-label="Resumen académico">
+            <div><span>Estudiante</span><strong>{user.name}</strong></div>
+            <div><span>Carnet</span><strong>{user.carnet}</strong></div>
+            <div><span>Promedio actual</span><strong>{promedio}</strong></div>
+            <div><span>Entrevistas pendientes</span><strong>{pendingInterviews.length}</strong></div>
+          </div>
 
           <div className="dashboard-actions">
             <button className="dashboard-card" onClick={() => navigate("/cursos")}><span className="dashboard-icon"><Icon name="courses" /></span><strong>Mis Cursos</strong><small>Consultar materias</small></button>
@@ -57,6 +78,24 @@ function HomePage() {
             <button className="dashboard-card" onClick={() => navigate("/horarios")}><span className="dashboard-icon"><Icon name="schedule" /></span><strong>Mi Horario</strong><small>Horario semanal</small></button>
             <button className="dashboard-card" onClick={() => navigate("/entrevista")}><span className="dashboard-icon"><Icon name="interview" /></span><strong>Entrevistas</strong><small>Ver llamadas asignadas</small></button>
           </div>
+
+          <section className="next-event" aria-label="Próxima entrevista">
+            <div>
+              <span className="next-event-label">PRÓXIMA ACTIVIDAD INSTITUCIONAL</span>
+              {nextInterview ? (
+                <>
+                  <h2>{nextInterview.materia} · {nextInterview.motivo}</h2>
+                  <p>{nextInterview.fecha} a las {nextInterview.hora} · {nextInterview.lugar}</p>
+                </>
+              ) : (
+                <>
+                  <h2>No tienes entrevistas pendientes</h2>
+                  <p>Cuando la institución asigne una, aparecerá automáticamente en esta sección.</p>
+                </>
+              )}
+            </div>
+            <button onClick={() => navigate("/entrevista")}>Ver detalles</button>
+          </section>
         </section>
       </main>
     </div>
