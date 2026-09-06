@@ -28,7 +28,7 @@ export const authRepository = {
       id: foundUser.id,
       name: foundUser.name,
       carnet: foundUser.carnet,
-      curso: foundUser.curso,
+      curso: foundUser.curso || "6A Secundaria",
       role: foundUser.role,
     };
 
