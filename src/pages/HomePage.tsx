@@ -50,51 +50,50 @@ function HomePage() {
 
         <nav className="school-nav" aria-label="Navegación principal">
           <button className="nav-item active" onClick={() => navigate("/")}><Icon name="home" /> <span>Inicio</span></button>
-          <button className="nav-item" onClick={() => navigate("/cursos")}><Icon name="courses" /> <span>Cursos</span></button>
+          <button className="nav-item" onClick={() => navigate("/cursos")}><Icon name="courses" /> <span>Materias</span></button>
           <button className="nav-item" onClick={() => navigate("/notas")}><Icon name="notes" /> <span>Notas</span></button>
-          <button className="nav-item" onClick={() => navigate("/horarios")}><Icon name="schedule" /> <span>Horarios</span></button>
+          <button className="nav-item" onClick={() => navigate("/horarios")}><Icon name="schedule" /> <span>Horario</span></button>
           <button className="nav-item" onClick={() => navigate("/entrevista")}><Icon name="interview" /> <span>Entrevistas</span></button>
         </nav>
 
-        <button className="logout-button" onClick={logout}><Icon name="logout" /> <span>Cerrar Sesión</span></button>
+        <button className="logout-button" onClick={logout}><Icon name="logout" /> <span>Cerrar sesión</span></button>
       </header>
 
       <main className="dashboard-main">
         <section className="welcome-panel">
           <p className="welcome-label">PORTAL ACADÉMICO</p>
           <h1>Bienvenido, {user.name}</h1>
-          <p className="student-greeting">Aquí puedes consultar de forma rápida tu información académica y las actividades que la institución tiene asignadas para ti.</p>
+          <p className="student-greeting">Consulta tus materias, calificaciones, horario y comunicaciones de la institución desde un solo lugar.</p>
 
           <div className="student-summary" aria-label="Resumen académico">
-            <div><span>Estudiante</span><strong>{user.name}</strong></div>
-            <div><span>Carnet</span><strong>{user.carnet}</strong></div>
+            <div><span>Curso</span><strong>{user.curso}</strong></div>
             <div><span>Promedio actual</span><strong>{promedio}</strong></div>
             <div><span>Entrevistas pendientes</span><strong>{pendingInterviews.length}</strong></div>
           </div>
 
           <div className="dashboard-actions">
-            <button className="dashboard-card" onClick={() => navigate("/cursos")}><span className="dashboard-icon"><Icon name="courses" /></span><strong>Mis Cursos</strong><small>Consultar materias</small></button>
-            <button className="dashboard-card" onClick={() => navigate("/notas")}><span className="dashboard-icon"><Icon name="notes" /></span><strong>Mis Notas</strong><small>Ver calificaciones</small></button>
-            <button className="dashboard-card" onClick={() => navigate("/horarios")}><span className="dashboard-icon"><Icon name="schedule" /></span><strong>Mi Horario</strong><small>Horario semanal</small></button>
-            <button className="dashboard-card" onClick={() => navigate("/entrevista")}><span className="dashboard-icon"><Icon name="interview" /></span><strong>Entrevistas</strong><small>Ver llamadas asignadas</small></button>
+            <button className="dashboard-card" onClick={() => navigate("/cursos")}><span className="dashboard-icon"><Icon name="courses" /></span><strong>Mis Materias</strong><small>Profesores y contenidos</small></button>
+            <button className="dashboard-card" onClick={() => navigate("/notas")}><span className="dashboard-icon"><Icon name="notes" /></span><strong>Mis Notas</strong><small>Consultar calificaciones</small></button>
+            <button className="dashboard-card" onClick={() => navigate("/horarios")}><span className="dashboard-icon"><Icon name="schedule" /></span><strong>Mi Horario</strong><small>Clases y aulas</small></button>
+            <button className="dashboard-card" onClick={() => navigate("/entrevista")}><span className="dashboard-icon"><Icon name="interview" /></span><strong>Entrevistas</strong><small>Citaciones asignadas</small></button>
           </div>
 
           <section className="next-event" aria-label="Próxima entrevista">
             <div>
-              <span className="next-event-label">PRÓXIMA ACTIVIDAD INSTITUCIONAL</span>
+              <span className="next-event-label">PRÓXIMA CITACIÓN</span>
               {nextInterview ? (
                 <>
-                  <h2>{nextInterview.materia} · {nextInterview.motivo}</h2>
-                  <p>{nextInterview.fecha} a las {nextInterview.hora} · {nextInterview.lugar}</p>
+                  <h2>{nextInterview.materia}</h2>
+                  <p>{nextInterview.motivo} · {nextInterview.fecha} · {nextInterview.hora} · {nextInterview.lugar}</p>
                 </>
               ) : (
                 <>
-                  <h2>No tienes entrevistas pendientes</h2>
-                  <p>Cuando la institución asigne una, aparecerá automáticamente en esta sección.</p>
+                  <h2>No tienes citaciones pendientes</h2>
+                  <p>Las nuevas citaciones aparecerán aquí cuando sean asignadas por la institución.</p>
                 </>
               )}
             </div>
-            <button onClick={() => navigate("/entrevista")}>Ver detalles</button>
+            <button onClick={() => navigate("/entrevista")}>Ver entrevistas</button>
           </section>
         </section>
       </main>
