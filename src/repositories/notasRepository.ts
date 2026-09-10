@@ -1,11 +1,21 @@
 import { storageService } from "../services/storageService";
 
+export type Trimester = "Primer trimestre" | "Segundo trimestre" | "Tercer trimestre";
+
 export interface StudentNote {
   materia: string;
   calificacion: number;
 }
 
-const NOTES_KEY = "student_notes";
+export type StudentNotesByTrimester = Record<Trimester, StudentNote[]>;
+
+const NOTES_KEY = "student_notes_by_trimester";
+
+export const trimestres: Trimester[] = [
+  "Primer trimestre",
+  "Segundo trimestre",
+  "Tercer trimestre",
+];
 
 const defaultSubjects = [
   "Matemática",
@@ -26,20 +36,27 @@ const defaultSubjects = [
   "Educación Física",
 ];
 
-const defaultNotes = defaultSubjects.map((materia, index) => ({
-  materia,
-  calificacion: 70 + ((index * 4) % 26),
-}));
+const createDefaultNotes = (base: number, step: number): StudentNote[] =>
+  defaultSubjects.map((materia, index) => ({
+    materia,
+    calificacion: base + ((index * step) % 26),
+  }));
+
+const defaultNotesByTrimester: StudentNotesByTrimester = {
+  "Primer trimestre": createDefaultNotes(70, 4),
+  "Segundo trimestre": createDefaultNotes(72, 5),
+  "Tercer trimestre": createDefaultNotes(75, 3),
+};
 
 export const notasRepository = {
-  getForStudent(carnet: string): StudentNote[] {
-    const allNotes = storageService.get<Record<string, StudentNote[]>>(NOTES_KEY) ?? {};
+  getForStudent(carnet: string, trimestre: Trimester = "Primer trimestre"): StudentNote[] {
+    const allNotes = storageService.get<Record<string, StudentNotesByTrimester>>(NOTES_KEY) ?? {};
 
     if (!allNotes[carnet]) {
-      allNotes[carnet] = defaultNotes;
+      allNotes[carnet] = defaultNotesByTrimester;
       storageService.set(NOTES_KEY, allNotes);
     }
 
-    return allNotes[carnet];
+    return allNotes[carnet][trimestre] ?? [];
   },
 };
