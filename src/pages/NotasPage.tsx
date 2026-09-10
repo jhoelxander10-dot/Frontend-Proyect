@@ -1,18 +1,20 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authRepository } from "../repositories/authRepository";
-import { notasRepository } from "../repositories/notasRepository";
+import { notasRepository, trimestres, type Trimester } from "../repositories/notasRepository";
 import "./SectionPage.css";
 
 function NotasPage() {
   const navigate = useNavigate();
   const user = authRepository.getCurrentUser();
+  const [trimestre, setTrimestre] = useState<Trimester>("Primer trimestre");
 
   if (!user) {
     navigate("/login", { replace: true });
     return null;
   }
 
-  const notas = notasRepository.getForStudent(user.carnet);
+  const notas = notasRepository.getForStudent(user.carnet, trimestre);
   const promedio = notas.length
     ? (notas.reduce((total, nota) => total + nota.calificacion, 0) / notas.length).toFixed(1)
     : "0.0";
@@ -32,6 +34,19 @@ function NotasPage() {
             <span>Promedio</span>
             <strong>{promedio}</strong>
           </div>
+        </div>
+
+        <div className="trimester-selector">
+          <label htmlFor="trimestre">Periodo académico</label>
+          <select
+            id="trimestre"
+            value={trimestre}
+            onChange={(event) => setTrimestre(event.target.value as Trimester)}
+          >
+            {trimestres.map((item) => (
+              <option key={item} value={item}>{item}</option>
+            ))}
+          </select>
         </div>
 
         {notas.length > 0 ? (
