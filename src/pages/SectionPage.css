@@ -1,67 +1,68 @@
 * { box-sizing: border-box; }
 
 :root {
-  --green: #007a33;
-  --green-dark: #005c27;
-  --yellow: #ffd100;
-  --red: #c8102e;
+  --blue: #075da8;
+  --blue-dark: #073d76;
+  --yellow: #f3c400;
+  --text: #172033;
+  --muted: #657487;
 }
 
-body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #eef5f0; }
+body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #eef3f8; }
 
 .section-page {
   min-height: 100vh;
   padding: 32px 6%;
   background:
-    radial-gradient(circle at top right, rgba(255, 209, 0, .25), transparent 32%),
-    linear-gradient(135deg, #f8fcf9 0%, #e5f1e9 55%, #d4e9dc 100%);
-  color: #172018;
+    radial-gradient(circle at top right, rgba(243, 196, 0, .18), transparent 32%),
+    linear-gradient(135deg, #f5f9fd 0%, #e8f1f8 55%, #dce9f4 100%);
+  color: var(--text);
 }
 
 .back-button {
   border: 0;
-  border-radius: 10px;
+  border-radius: 9px;
   padding: 12px 19px;
-  background: var(--green);
+  background: var(--blue);
   color: #fff;
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 5px 12px rgba(0, 92, 39, .18);
+  box-shadow: 0 5px 12px rgba(7, 61, 118, .18);
   transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
 }
 
-.back-button:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0, 92, 39, .24); }
+.back-button:hover { background: var(--blue-dark); transform: translateY(-2px); box-shadow: 0 8px 16px rgba(7, 61, 118, .24); }
 
 .section-card {
   max-width: 1100px;
   margin: 28px auto;
   padding: 34px;
-  background: rgba(255, 255, 255, .96);
-  border: 1px solid rgba(0, 122, 51, .16);
+  background: rgba(255, 255, 255, .97);
+  border: 1px solid #d5e1ec;
   border-top: 5px solid var(--yellow);
   border-radius: 18px;
-  box-shadow: 0 14px 35px rgba(22, 55, 34, .13);
+  box-shadow: 0 14px 35px rgba(22, 48, 73, .13);
 }
 
-.section-card h1 { margin: 0 0 8px; font-size: 32px; color: var(--green-dark); }
-.section-card > p { margin: 0; color: #5e6b63; line-height: 1.6; }
-.section-kicker { color: var(--green); font-size: 11px; font-weight: 900; letter-spacing: 1.5px; }
+.section-card h1 { margin: 0 0 8px; font-size: 32px; color: var(--blue-dark); }
+.section-card > p { margin: 0; color: var(--muted); line-height: 1.6; }
+.section-kicker { color: var(--blue); font-size: 11px; font-weight: 900; letter-spacing: 1.5px; }
 
 .student-header { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-.student-header p { margin: 0; color: #647169; }
-.student-header p strong { color: #243229; }
+.student-header p { margin: 0; color: var(--muted); }
+.student-header p strong { color: #24364b; }
 
 .average-card {
   min-width: 120px;
   padding: 14px 18px;
   text-align: center;
   border-radius: 13px;
-  background: #fff7cf;
-  border: 1px solid #efd36a;
+  background: #fff9d9;
+  border: 1px solid #ead47a;
 }
 .average-card span { display: block; color: #6c5b12; font-size: 12px; font-weight: 700; }
-.average-card strong { color: var(--green-dark); font-size: 27px; }
+.average-card strong { color: var(--blue-dark); font-size: 27px; }
 
 .trimester-selector {
   display: flex;
@@ -70,52 +71,45 @@ body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #eef5f0
   gap: 18px;
   margin-top: 26px;
   padding: 16px 18px;
-  border: 1px solid #c6ddce;
+  border: 1px solid #cfdeeb;
   border-radius: 13px;
-  background: #f4faf6;
+  background: #f5f9fd;
 }
 
-.trimester-selector label {
-  color: var(--green-dark);
-  font-size: 14px;
-  font-weight: 800;
-}
+.trimester-selector label { color: var(--blue-dark); font-size: 14px; font-weight: 800; }
 
 .trimester-selector select {
   min-width: 210px;
   padding: 11px 13px;
-  border: 1px solid #a9c9b5;
+  border: 1px solid #b9ccdd;
   border-radius: 9px;
   background: #fff;
-  color: #243229;
+  color: #24364b;
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   outline: none;
 }
 
-.trimester-selector select:focus {
-  border-color: var(--green);
-  box-shadow: 0 0 0 3px rgba(0, 122, 51, .12);
-}
+.trimester-selector select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(7, 93, 168, .12); }
 
-.table-wrap { overflow-x: auto; margin-top: 26px; border-radius: 13px; border: 1px solid #dce8df; box-shadow: 0 5px 16px rgba(22, 55, 34, .07); }
+.table-wrap { overflow-x: auto; margin-top: 26px; border-radius: 13px; border: 1px solid #d7e2ec; box-shadow: 0 5px 16px rgba(22, 48, 73, .07); }
 table { width: 100%; min-width: 560px; border-collapse: collapse; background: #fff; }
-th, td { padding: 15px 17px; text-align: left; border-bottom: 1px solid #e8eee9; }
-th { background: var(--green); color: #fff; font-size: 14px; text-transform: uppercase; letter-spacing: .04em; }
+th, td { padding: 15px 17px; text-align: left; border-bottom: 1px solid #e7edf3; }
+th { background: var(--blue); color: #fff; font-size: 14px; text-transform: uppercase; letter-spacing: .04em; }
 tbody tr { transition: background .18s ease; }
-tbody tr:hover { background: #f4faf6; }
+tbody tr:hover { background: #f5f9fd; }
 tbody tr:last-child td { border-bottom: 0; }
-td strong { color: var(--green-dark); }
+td strong { color: var(--blue-dark); }
 
-.demo-note { margin-top: 20px !important; font-size: 12px; color: #7a8580 !important; }
+.demo-note { margin-top: 20px !important; font-size: 12px; color: #7a8794 !important; }
 
 .course-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 26px; }
-.mini-card { padding: 24px; border-radius: 15px; background: linear-gradient(145deg, #f7fcf8, #e4f1e8); border: 1px solid #c6ddce; box-shadow: 0 7px 16px rgba(23, 62, 38, .08); transition: transform .2s ease, box-shadow .2s ease; }
-.mini-card:hover { transform: translateY(-4px); box-shadow: 0 12px 22px rgba(23, 62, 38, .14); }
-.mini-card h2 { margin: 0 0 10px; color: var(--green-dark); font-size: 21px; }
-.mini-card p { margin: 0 0 9px; color: #5e6b63; }
-.mini-card span { color: var(--red); font-weight: 700; }
+.mini-card { padding: 24px; border-radius: 15px; background: linear-gradient(145deg, #ffffff, #edf5fc); border: 1px solid #cfdeeb; box-shadow: 0 7px 16px rgba(23, 54, 83, .08); transition: transform .2s ease, box-shadow .2s ease; }
+.mini-card:hover { transform: translateY(-4px); box-shadow: 0 12px 22px rgba(23, 54, 83, .14); }
+.mini-card h2 { margin: 0 0 10px; color: var(--blue-dark); font-size: 21px; }
+.mini-card p { margin: 0 0 9px; color: #657487; }
+.mini-card span { color: var(--blue); font-weight: 700; }
 
 @media (max-width: 650px) {
   .section-page { padding: 22px 4%; }
