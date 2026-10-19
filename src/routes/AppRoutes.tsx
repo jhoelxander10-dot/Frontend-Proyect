@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/auth/LoginPage";
+import AdminPage from "../pages/admin/AdminPage";
 import CursosPage from "../pages/CursosPage";
 import NotasPage from "../pages/NotasPage";
 import HorariosPage from "../pages/HorariosPage";
@@ -11,6 +12,7 @@ function AppRoutes() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/admin" element={<AdminPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/cursos" element={<CursosPage />} />
         <Route path="/notas" element={<NotasPage />} />
