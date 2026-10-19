@@ -7,21 +7,20 @@ import type { LoginCredentials, RegisterCredentials } from "../../types/auth";
 function LoginPage() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const currentUser = authRepository.getCurrentUser();
 
-  if (authRepository.isAuthenticated()) {
-    return <Navigate to="/" replace />;
+  if (currentUser) {
+    return <Navigate to={currentUser.role === "ADMIN" ? "/admin" : "/"} replace />;
   }
 
   const handleLogin = (credentials: LoginCredentials) => {
     setError("");
     const user = authRepository.login(credentials);
-
     if (!user) {
       setError("El carnet o la contraseña son incorrectos.");
       return;
     }
-
-    navigate("/", { replace: true });
+    navigate(user.role === "ADMIN" ? "/admin" : "/", { replace: true });
   };
 
   const handleRegister = (credentials: RegisterCredentials) => {
@@ -29,11 +28,7 @@ function LoginPage() {
     return authRepository.register(credentials);
   };
 
-  return (
-    <main>
-      <LoginForm error={error} onSubmit={handleLogin} onRegister={handleRegister} />
-    </main>
-  );
+  return <main><LoginForm error={error} onSubmit={handleLogin} onRegister={handleRegister} /></main>;
 }
 
 export default LoginPage;
