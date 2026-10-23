@@ -10,17 +10,19 @@ function LoginPage() {
   const currentUser = authRepository.getCurrentUser();
 
   if (currentUser) {
-    return <Navigate to={currentUser.role === "ADMIN" ? "/admin" : "/"} replace />;
+    return <Navigate to="/" replace />;
   }
 
   const handleLogin = (credentials: LoginCredentials) => {
     setError("");
     const user = authRepository.login(credentials);
+
     if (!user) {
       setError("El carnet o la contraseña son incorrectos.");
       return;
     }
-    navigate(user.role === "ADMIN" ? "/admin" : "/", { replace: true });
+
+    navigate("/", { replace: true });
   };
 
   const handleRegister = (credentials: RegisterCredentials) => {
@@ -28,7 +30,11 @@ function LoginPage() {
     return authRepository.register(credentials);
   };
 
-  return <main><LoginForm error={error} onSubmit={handleLogin} onRegister={handleRegister} /></main>;
+  return (
+    <main>
+      <LoginForm error={error} onSubmit={handleLogin} onRegister={handleRegister} />
+    </main>
+  );
 }
 
 export default LoginPage;
