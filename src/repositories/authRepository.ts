@@ -68,10 +68,6 @@ export const authRepository = {
     return { ok: true, message: "Cuenta creada correctamente." };
   },
 
-  getAllUsers(): User[] {
-    return getUsers().map(({ password: _password, ...user }) => user);
-  },
-
   logout(): void {
     storageService.remove(SESSION_KEY);
   },
