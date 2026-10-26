@@ -1,0 +1,69 @@
+* { box-sizing: border-box; }
+
+.announcements-page {
+  min-height: 100vh;
+  padding: 30px 20px 60px;
+  background: linear-gradient(145deg, #eaf1f8, #f7f9fc);
+  color: #172033;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.announcements-back {
+  display: block;
+  margin: 0 auto 18px;
+  width: min(980px, 100%);
+  border: 0;
+  background: transparent;
+  color: #07559b;
+  font-weight: 800;
+  text-align: left;
+  cursor: pointer;
+  padding: 8px 0;
+}
+.announcements-back:hover { color: #032d59; text-decoration: underline; }
+.announcements-back:focus-visible { outline: 3px solid #f3c400; outline-offset: 3px; }
+
+.announcements-panel {
+  width: min(980px, 100%);
+  margin: 0 auto;
+  padding: 34px;
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid #dce5ef;
+  border-top: 5px solid #f3c400;
+  box-shadow: 0 14px 35px rgba(14, 44, 76, .12);
+}
+
+.announcements-heading { display: flex; align-items: center; gap: 18px; padding-bottom: 24px; border-bottom: 1px solid #e2eaf2; }
+.announcements-main-icon { width: 62px; height: 62px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 16px; background: #eaf4ff; font-size: 31px; }
+.announcements-kicker { margin: 0 0 5px; color: #07559b; font-size: 11px; font-weight: 900; letter-spacing: 1.5px; }
+.announcements-heading h1 { margin: 0 0 7px; color: #073d76; font-size: clamp(27px, 4vw, 36px); }
+.announcements-heading p:last-child { margin: 0; color: #64748b; line-height: 1.5; }
+
+.announcements-student { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin: 20px 0; padding: 14px 16px; border-radius: 11px; background: #f4f8fc; color: #254766; }
+.announcements-student span { color: #64748b; font-size: 13px; }
+
+.announcements-note { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 22px; padding: 13px 15px; border: 1px solid #d7e8f7; border-radius: 10px; background: #f0f8ff; }
+.announcements-note p { margin: 0; color: #456078; font-size: 13px; line-height: 1.55; }
+
+.announcements-list { display: grid; gap: 14px; }
+.announcement-card { display: flex; align-items: flex-start; gap: 16px; padding: 20px; border: 1px solid #dce5ef; border-radius: 13px; background: #fff; transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease; }
+.announcement-card:hover { border-color: #9fc4e7; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(14, 44, 76, .08); }
+.announcement-icon { width: 46px; height: 46px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 12px; background: #eef5fc; font-size: 23px; }
+.announcement-content { min-width: 0; flex: 1; }
+.announcement-meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.announcement-category { color: #07559b; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: .8px; }
+.announcement-date { color: #8491a1; font-size: 11px; }
+.announcement-card h2 { margin: 8px 0 7px; color: #173b61; font-size: 18px; }
+.announcement-card p { margin: 0; color: #5d6b7c; font-size: 14px; line-height: 1.65; }
+
+@media (max-width: 600px) {
+  .announcements-page { padding: 18px 12px 35px; }
+  .announcements-panel { padding: 23px 16px; border-radius: 15px; }
+  .announcements-heading { align-items: flex-start; gap: 12px; }
+  .announcements-main-icon { width: 48px; height: 48px; border-radius: 12px; font-size: 24px; }
+  .announcements-student { align-items: flex-start; flex-direction: column; gap: 5px; }
+  .announcement-card { gap: 11px; padding: 15px 12px; }
+  .announcement-icon { width: 38px; height: 38px; font-size: 19px; }
+  .announcement-card h2 { font-size: 16px; }
+}
