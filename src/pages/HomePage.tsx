@@ -4,13 +4,14 @@ import { entrevistasRepository } from "../repositories/entrevistasRepository";
 import { notasRepository } from "../repositories/notasRepository";
 import "./HomePage.css";
 
-type IconName = "courses" | "notes" | "interview" | "logout";
+type IconName = "courses" | "notes" | "interview" | "announcements" | "logout";
 
 function Icon({ name }: { name: IconName }) {
   const paths: Record<IconName, string> = {
     courses: "M4 5.5 12 3l8 2.5v13L12 21l-8-2.5v-13ZM4 5.5 12 8l8-2.5M12 8v13",
     notes: "M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2ZM7 8h10M7 12h10M7 16h6",
     interview: "M4 5h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7l-4 3v-3H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2ZM7 9h10M7 13h7",
+    announcements: "M4 11V7a2 2 0 0 1 2-2h3l8-3v20l-8-3H6a2 2 0 0 1-2-2v-3M9 19l2 3M17 8a4 4 0 0 1 0 6",
     logout: "M10 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h5M15 16l4-4-4-4M19 12H9",
   };
 
@@ -68,6 +69,7 @@ function HomePage() {
             <button className="dashboard-card" onClick={() => navigate("/plan-academico")}><span className="dashboard-icon"><Icon name="courses" /></span><strong>Plan Académico</strong><small>Materias, profesores y horarios</small></button>
             <button className="dashboard-card" onClick={() => navigate("/notas")}><span className="dashboard-icon"><Icon name="notes" /></span><strong>Mis Notas</strong><small>Consultar calificaciones</small></button>
             <button className="dashboard-card" onClick={() => navigate("/entrevista")}><span className="dashboard-icon"><Icon name="interview" /></span><strong>Entrevistas</strong><small>Citaciones asignadas</small></button>
+            <button className="dashboard-card" onClick={() => navigate("/anuncios")}><span className="dashboard-icon"><Icon name="announcements" /></span><strong>Anuncios</strong><small>Avisos e información importante</small></button>
           </div>
 
           <section className="next-event" aria-label="Próxima entrevista">
