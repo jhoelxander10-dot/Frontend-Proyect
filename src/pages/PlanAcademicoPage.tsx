@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SectionPage.css";
 
@@ -60,6 +61,7 @@ const horario = [
 
 function PlanAcademicoPage() {
   const navigate = useNavigate();
+  const [seccion, setSeccion] = useState<"materias" | "horarios">("materias");
 
   return (
     <main className="section-page">
@@ -69,31 +71,74 @@ function PlanAcademicoPage() {
         <h1>Mi Plan Académico</h1>
         <p>En un solo lugar puedes consultar las materias de 6A Secundaria, sus profesores, contenidos y el horario semanal de clases.</p>
 
-        <h2 style={{ color: "#073d76", marginTop: 30 }}>Mis materias y profesores</h2>
-        <div className="course-grid">
-          {materias.map(([materia, profesor, contenidos]) => (
-            <article className="mini-card" key={materia}>
-              <h2>{materia}</h2>
-              <strong>{profesor}</strong>
-              <p style={{ marginTop: 10 }}>{contenidos}</p>
-            </article>
-          ))}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 28, marginBottom: 24 }}>
+          <button
+            type="button"
+            onClick={() => setSeccion("materias")}
+            aria-pressed={seccion === "materias"}
+            style={{
+              flex: "1 1 180px",
+              padding: "14px 20px",
+              border: "2px solid #073d76",
+              borderRadius: 10,
+              background: seccion === "materias" ? "#073d76" : "#ffffff",
+              color: seccion === "materias" ? "#ffffff" : "#073d76",
+              fontWeight: 700,
+              cursor: "pointer",
+            }}
+          >
+            📚 Mis Materias
+          </button>
+          <button
+            type="button"
+            onClick={() => setSeccion("horarios")}
+            aria-pressed={seccion === "horarios"}
+            style={{
+              flex: "1 1 180px",
+              padding: "14px 20px",
+              border: "2px solid #073d76",
+              borderRadius: 10,
+              background: seccion === "horarios" ? "#073d76" : "#ffffff",
+              color: seccion === "horarios" ? "#ffffff" : "#073d76",
+              fontWeight: 700,
+              cursor: "pointer",
+            }}
+          >
+            🗓️ Mi Horario
+          </button>
         </div>
 
-        <h2 style={{ color: "#073d76", marginTop: 38 }}>Horario semanal · 6A Secundaria</h2>
-        <p>Clases organizadas por día, hora y profesor.</p>
-        <div className="table-wrap">
-          <table>
-            <thead><tr><th>Día</th><th>Materia</th><th>Horario</th><th>Profesor</th></tr></thead>
-            <tbody>
-              {horario.map(([dia, materia, hora, profesor], index) => (
-                <tr key={`${dia}-${materia}-${hora}-${index}`}>
-                  <td>{dia}</td><td>{materia}</td><td>{hora}</td><td>{profesor}</td>
-                </tr>
+        {seccion === "materias" ? (
+          <section aria-label="Mis materias y profesores">
+            <h2 style={{ color: "#073d76", marginTop: 20 }}>Mis materias y profesores</h2>
+            <div className="course-grid">
+              {materias.map(([materia, profesor, contenidos]) => (
+                <article className="mini-card" key={materia}>
+                  <h2>{materia}</h2>
+                  <strong>{profesor}</strong>
+                  <p style={{ marginTop: 10 }}>{contenidos}</p>
+                </article>
               ))}
-            </tbody>
-          </table>
-        </div>
+            </div>
+          </section>
+        ) : (
+          <section aria-label="Horario semanal">
+            <h2 style={{ color: "#073d76", marginTop: 20 }}>Horario semanal · 6A Secundaria</h2>
+            <p>Clases organizadas por día, hora y profesor.</p>
+            <div className="table-wrap">
+              <table>
+                <thead><tr><th>Día</th><th>Materia</th><th>Horario</th><th>Profesor</th></tr></thead>
+                <tbody>
+                  {horario.map(([dia, materia, hora, profesor], index) => (
+                    <tr key={`${dia}-${materia}-${hora}-${index}`}>
+                      <td>{dia}</td><td>{materia}</td><td>{hora}</td><td>{profesor}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        )}
       </section>
     </main>
   );
