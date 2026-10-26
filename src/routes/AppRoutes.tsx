@@ -4,6 +4,7 @@ import LoginPage from "../pages/auth/LoginPage";
 import PlanAcademicoPage from "../pages/PlanAcademicoPage";
 import NotasPage from "../pages/NotasPage";
 import EntrevistaPage from "../pages/EntrevistaPage";
+import AnunciosPage from "../pages/AnunciosPage";
 
 function AppRoutes() {
   return (
@@ -14,6 +15,7 @@ function AppRoutes() {
         <Route path="/plan-academico" element={<PlanAcademicoPage />} />
         <Route path="/notas" element={<NotasPage />} />
         <Route path="/entrevista" element={<EntrevistaPage />} />
+        <Route path="/anuncios" element={<AnunciosPage />} />
       </Routes>
     </BrowserRouter>
   );
