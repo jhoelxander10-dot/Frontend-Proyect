@@ -4,13 +4,12 @@ import { entrevistasRepository } from "../repositories/entrevistasRepository";
 import { notasRepository } from "../repositories/notasRepository";
 import "./HomePage.css";
 
-type IconName = "courses" | "notes" | "schedule" | "interview" | "logout";
+type IconName = "courses" | "notes" | "interview" | "logout";
 
 function Icon({ name }: { name: IconName }) {
   const paths: Record<IconName, string> = {
     courses: "M4 5.5 12 3l8 2.5v13L12 21l-8-2.5v-13ZM4 5.5 12 8l8-2.5M12 8v13",
     notes: "M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2ZM7 8h10M7 12h10M7 16h6",
-    schedule: "M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2ZM7 2v4M17 2v4M3 10h18M7 14h.01M12 14h.01M17 14h.01M7 18h.01M12 18h.01M17 18h.01",
     interview: "M4 5h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7l-4 3v-3H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2ZM7 9h10M7 13h7",
     logout: "M10 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h5M15 16l4-4-4-4M19 12H9",
   };
@@ -57,7 +56,7 @@ function HomePage() {
         <section className="welcome-panel">
           <p className="welcome-label">PORTAL ACADÉMICO</p>
           <h1>Bienvenido, {user.name}</h1>
-          <p className="student-greeting">Consulta tus materias, calificaciones, horario y comunicaciones de la institución desde un solo lugar.</p>
+          <p className="student-greeting">Consulta tu plan académico, calificaciones y comunicaciones de la institución desde un solo lugar.</p>
 
           <div className="student-summary" aria-label="Resumen académico">
             <div><span>Curso</span><strong>{user.curso}</strong></div>
@@ -66,9 +65,8 @@ function HomePage() {
           </div>
 
           <div className="dashboard-actions">
-            <button className="dashboard-card" onClick={() => navigate("/cursos")}><span className="dashboard-icon"><Icon name="courses" /></span><strong>Mis Materias</strong><small>Profesores y contenidos</small></button>
+            <button className="dashboard-card" onClick={() => navigate("/plan-academico")}><span className="dashboard-icon"><Icon name="courses" /></span><strong>Plan Académico</strong><small>Materias, profesores y horarios</small></button>
             <button className="dashboard-card" onClick={() => navigate("/notas")}><span className="dashboard-icon"><Icon name="notes" /></span><strong>Mis Notas</strong><small>Consultar calificaciones</small></button>
-            <button className="dashboard-card" onClick={() => navigate("/horarios")}><span className="dashboard-icon"><Icon name="schedule" /></span><strong>Mi Horario</strong><small>Clases y aulas</small></button>
             <button className="dashboard-card" onClick={() => navigate("/entrevista")}><span className="dashboard-icon"><Icon name="interview" /></span><strong>Entrevistas</strong><small>Citaciones asignadas</small></button>
           </div>
 
