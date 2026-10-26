@@ -205,7 +205,6 @@ function PlanAcademicoPage() {
               </div>
             )}
           </section>
-        )
         )}
       </section>
     </main>
