@@ -5,8 +5,8 @@ import "./LoginForm.css";
 
 interface LoginFormProps {
   error?: string;
-  onSubmit: (credentials: LoginCredentials) => void;
-  onRegister: (credentials: RegisterCredentials) => { ok: boolean; message: string };
+  onSubmit: (credentials: LoginCredentials) => void | Promise<void>;
+  onRegister: (credentials: RegisterCredentials) => { ok: boolean; message: string } | Promise<{ ok: boolean; message: string }>;
 }
 
 function LoginForm({ error, onSubmit, onRegister }: LoginFormProps) {
@@ -17,7 +17,7 @@ function LoginForm({ error, onSubmit, onRegister }: LoginFormProps) {
   const [registerMessage, setRegisterMessage] = useState("");
   const [registerError, setRegisterError] = useState("");
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
     setRegisterMessage("");
     setRegisterError("");
@@ -26,7 +26,7 @@ function LoginForm({ error, onSubmit, onRegister }: LoginFormProps) {
     if (!normalizedCarnet || !password) return;
 
     if (isRegistering) {
-      const result = onRegister({ name: name.trim(), carnet: normalizedCarnet, password });
+      const result = await onRegister({ name: name.trim(), carnet: normalizedCarnet, password });
       if (result.ok) {
         setRegisterMessage(result.message + " Ahora puedes iniciar sesión.");
         setIsRegistering(false);
@@ -39,7 +39,7 @@ function LoginForm({ error, onSubmit, onRegister }: LoginFormProps) {
       return;
     }
 
-    onSubmit({ carnet: normalizedCarnet, password });
+    await onSubmit({ carnet: normalizedCarnet, password });
   };
 
   const toggleMode = () => {
