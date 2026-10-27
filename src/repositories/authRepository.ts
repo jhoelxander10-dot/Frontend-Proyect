@@ -52,6 +52,8 @@ export const authRepository = {
   },
 
   getCurrentUser(): User | null {
+    // Ignore old browser-only sessions created before the API migration.
+    if (!apiClient.getToken()) return null;
     return storageService.get<User>(SESSION_KEY);
   },
 
