@@ -17,14 +17,14 @@ const registerSchema = credentialsSchema.extend({
   name: z.string().trim().min(2).max(100),
 });
 
-function createToken(userId: string, role: "ADMIN" | "USUARIO") {
+function createToken(userId: string, role: string) {
   return jwt.sign({ role }, env.JWT_SECRET, {
     subject: userId,
     expiresIn: env.JWT_EXPIRES_IN as jwt.SignOptions["expiresIn"],
   });
 }
 
-function publicUser(user: { _id: unknown; name: string; carnet: string; course: string; role: "ADMIN" | "USUARIO" }) {
+function publicUser(user: { _id: unknown; name: string; carnet: string; course: string; role: string }) {
   return {
     id: String(user._id),
     name: user.name,
