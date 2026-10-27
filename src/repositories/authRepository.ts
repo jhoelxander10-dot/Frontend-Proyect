@@ -39,10 +39,7 @@ export const authRepository = {
     }
 
     try {
-      const response = await apiClient.register(name, carnet, credentials.password);
-      // Registration creates a student account. Save its session to avoid a second login.
-      apiClient.setToken(response.token);
-      storageService.set<User>(SESSION_KEY, toSessionUser(response.user));
+      await apiClient.register(name, carnet, credentials.password);
       return { ok: true, message: "Cuenta creada correctamente." };
     } catch (error) {
       return { ok: false, message: error instanceof Error ? error.message : "No se pudo crear la cuenta." };
