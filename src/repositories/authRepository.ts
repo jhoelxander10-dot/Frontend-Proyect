@@ -1,74 +1,56 @@
-import initialUsers from "../data/users.json";
 import { storageService } from "../services/storageService";
-import type {
-  LoginCredentials,
-  RegisterCredentials,
-  User,
-  UserRecord,
-} from "../types/auth";
+import { apiClient, type ApiUser } from "../services/apiClient";
+import type { LoginCredentials, RegisterCredentials, User } from "../types/auth";
 
 const SESSION_KEY = "app_session";
-const USERS_KEY = "institutional_users";
-const baseUsers = initialUsers as UserRecord[];
 
-function getUsers(): UserRecord[] {
-  const savedUsers = storageService.get<UserRecord[]>(USERS_KEY);
-  return savedUsers ? [...baseUsers, ...savedUsers] : baseUsers;
+function toSessionUser(user: ApiUser): User {
+  return {
+    id: user.id,
+    name: user.name,
+    carnet: user.carnet,
+    curso: user.curso,
+    role: user.role,
+  };
 }
 
 export const authRepository = {
-  login(credentials: LoginCredentials): User | null {
-    const foundUser = getUsers().find(
-      (user) => user.carnet === credentials.carnet && user.password === credentials.password
-    );
-
-    if (!foundUser) return null;
-
-    const sessionUser: User = {
-      id: foundUser.id,
-      name: foundUser.name,
-      carnet: foundUser.carnet,
-      curso: foundUser.curso || "6A Secundaria",
-      role: foundUser.role,
-    };
-
-    storageService.set<User>(SESSION_KEY, sessionUser);
-    return sessionUser;
+  async login(credentials: LoginCredentials): Promise<User | null> {
+    try {
+      const response = await apiClient.login(credentials.carnet.trim(), credentials.password);
+      apiClient.setToken(response.token);
+      const sessionUser = toSessionUser(response.user);
+      storageService.set<User>(SESSION_KEY, sessionUser);
+      return sessionUser;
+    } catch {
+      return null;
+    }
   },
 
-  register(credentials: RegisterCredentials): { ok: boolean; message: string } {
+  async register(credentials: RegisterCredentials): Promise<{ ok: boolean; message: string }> {
     const name = credentials.name.trim();
     const carnet = credentials.carnet.trim();
-    const password = credentials.password;
 
-    if (!name || !carnet || !password) {
+    if (!name || !carnet || !credentials.password) {
       return { ok: false, message: "Completa todos los campos." };
     }
-
-    if (password.length < 6) {
+    if (credentials.password.length < 6) {
       return { ok: false, message: "La contraseña debe tener al menos 6 caracteres." };
     }
 
-    if (getUsers().some((user) => user.carnet === carnet)) {
-      return { ok: false, message: "Ese carnet ya tiene una cuenta institucional." };
+    try {
+      const response = await apiClient.register(name, carnet, credentials.password);
+      // Registration creates a student account. Save its session to avoid a second login.
+      apiClient.setToken(response.token);
+      storageService.set<User>(SESSION_KEY, toSessionUser(response.user));
+      return { ok: true, message: "Cuenta creada correctamente." };
+    } catch (error) {
+      return { ok: false, message: error instanceof Error ? error.message : "No se pudo crear la cuenta." };
     }
-
-    const newUser: UserRecord = {
-      id: `student-${Date.now()}`,
-      name,
-      carnet,
-      curso: "6A Secundaria",
-      password,
-      role: "USUARIO",
-    };
-
-    const savedUsers = storageService.get<UserRecord[]>(USERS_KEY) ?? [];
-    storageService.set<UserRecord[]>(USERS_KEY, [...savedUsers, newUser]);
-
-    return { ok: true, message: "Cuenta creada correctamente." };
   },
 
   logout(): void {
+    apiClient.clearToken();
     storageService.remove(SESSION_KEY);
   },
 
@@ -77,6 +59,6 @@ export const authRepository = {
   },
 
   isAuthenticated(): boolean {
-    return this.getCurrentUser() !== null;
+    return this.getCurrentUser() !== null && apiClient.getToken() !== null;
   },
 };
