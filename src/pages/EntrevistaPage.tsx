@@ -22,7 +22,7 @@ function EntrevistaPage() {
 
       <section className="interview-card">
         <div className="interview-heading">
-          <span className="interview-icon">💬</span>
+          <span className="interview-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7l-4 3v-3H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" /><path d="M7 9h10M7 13h7" /></svg></span>
           <div>
             <p className="interview-kicker">PORTAL ACADÉMICO</p>
             <h1>Mis Entrevistas</h1>
