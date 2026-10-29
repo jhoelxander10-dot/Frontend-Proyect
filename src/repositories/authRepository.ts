@@ -15,17 +15,32 @@ function normalizeCarnet(carnet: string): string {
   return carnet.trim().replace(/[\s-]/g, "");
 }
 
+function getSavedUsers(): UserRecord[] {
+  const value = storageService.get<unknown>(USERS_KEY);
+  return Array.isArray(value)
+    ? value.filter(
+        (user): user is UserRecord =>
+          Boolean(user) &&
+          typeof user === "object" &&
+          typeof user.carnet === "string" &&
+          typeof user.password === "string"
+      )
+    : [];
+}
+
 function getUsers(): UserRecord[] {
-  const savedUsers = storageService.get<UserRecord[]>(USERS_KEY) ?? [];
   const usersByCarnet = new Map<string, UserRecord>();
 
+  // Las cuentas incluidas con el proyecto tienen prioridad sobre copias antiguas
+  // guardadas en el navegador, que podrían tener contraseñas desactualizadas.
   for (const user of baseUsers) {
     usersByCarnet.set(normalizeCarnet(user.carnet), user);
   }
 
-  for (const user of savedUsers) {
-    if (user && typeof user.carnet === "string") {
-      usersByCarnet.set(normalizeCarnet(user.carnet), user);
+  for (const user of getSavedUsers()) {
+    const carnet = normalizeCarnet(user.carnet);
+    if (carnet && !usersByCarnet.has(carnet)) {
+      usersByCarnet.set(carnet, user);
     }
   }
 
@@ -98,7 +113,7 @@ export const authRepository = {
       role: "USUARIO",
     };
 
-    const savedUsers = storageService.get<UserRecord[]>(USERS_KEY) ?? [];
+    const savedUsers = getSavedUsers();
     storageService.set<UserRecord[]>(USERS_KEY, [...savedUsers, newUser]);
 
     return { ok: true, message: "Cuenta creada correctamente." };
