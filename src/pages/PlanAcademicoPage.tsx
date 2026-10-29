@@ -133,7 +133,7 @@ function PlanAcademicoPage() {
               cursor: "pointer",
             }}
           >
-            📚 Mis Materias
+            <svg className="academic-tab-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21zM4 5.5v13A2.5 2.5 0 0 1 6.5 16H20" /></svg> Mis Materias
           </button>
           <button
             type="button"
@@ -141,7 +141,7 @@ function PlanAcademicoPage() {
             aria-pressed={seccion === "calendario"}
             style={{ flex: "1 1 180px", padding: "14px 20px", border: "2px solid #073d76", borderRadius: 10, background: seccion === "calendario" ? "#073d76" : "#ffffff", color: seccion === "calendario" ? "#ffffff" : "#073d76", fontWeight: 700, cursor: "pointer" }}
           >
-            📅 Calendario
+            <svg className="academic-tab-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M7 3v4M17 3v4M3 10h18M7 14h3M14 14h3" /></svg> Calendario
           </button>
           <button
             type="button"
@@ -158,7 +158,7 @@ function PlanAcademicoPage() {
               cursor: "pointer",
             }}
           >
-            🗓️ Mi Horario
+            <svg className="academic-tab-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg> Mi Horario
           </button>
         </div>
 
