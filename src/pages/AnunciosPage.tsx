@@ -5,27 +5,39 @@ import "./AnunciosPage.css";
 const anuncios = [
   {
     id: 1,
-    categoria: "Académico",
-    icono: "📚",
-    titulo: "Revisa tus actividades académicas",
-    mensaje: "Consulta con frecuencia el portal y las indicaciones de tus profesores para mantenerte al día con tareas, evaluaciones y trabajos.",
-    fecha: "Aviso general",
+    categoria: "Comunicado escolar",
+    icono: "🏫",
+    titulo: "Información para la comunidad educativa",
+    mensaje:
+      "Consulta los comunicados de la institución y mantente atento a las indicaciones de la dirección y de tus profesores.",
+    fecha: "Comunidad educativa",
   },
   {
     id: 2,
-    categoria: "Recordatorio",
-    icono: "🗓️",
-    titulo: "Organiza tu horario",
-    mensaje: "Revisa tu Plan Académico para confirmar las materias, los profesores y los horarios de cada jornada.",
-    fecha: "Aviso general",
+    categoria: "Académico",
+    icono: "📚",
+    titulo: "Actividades y evaluaciones",
+    mensaje:
+      "Revisa las tareas, los trabajos prácticos y las fechas de evaluación comunicadas por tus profesores para cada materia.",
+    fecha: "Seguimiento académico",
   },
   {
     id: 3,
-    categoria: "Portal",
-    icono: "🔔",
-    titulo: "Mantén tus datos a mano",
-    mensaje: "Ingresa con tu cuenta personal y revisa las secciones de Notas y Entrevistas para consultar la información que te corresponda.",
-    fecha: "Aviso general",
+    categoria: "Convivencia escolar",
+    icono: "🤝",
+    titulo: "Cuidemos nuestra unidad educativa",
+    mensaje:
+      "Promovamos el respeto entre compañeros, el cuidado de las aulas y los materiales, y una buena convivencia dentro del colegio.",
+    fecha: "Recordatorio institucional",
+  },
+  {
+    id: 4,
+    categoria: "Actividades",
+    icono: "📅",
+    titulo: "Actividades y reuniones del colegio",
+    mensaje:
+      "Para conocer las fechas de reuniones, actos cívicos y otras actividades institucionales, revisa los avisos comunicados por el colegio.",
+    fecha: "Consultar comunicados",
   },
 ];
 
@@ -48,9 +60,9 @@ function AnunciosPage() {
         <header className="announcements-heading">
           <span className="announcements-main-icon">📢</span>
           <div>
-            <p className="announcements-kicker">PORTAL ACADÉMICO</p>
-            <h1>Anuncios</h1>
-            <p>Avisos y recordatorios importantes para los estudiantes.</p>
+            <p className="announcements-kicker">COMUNIDAD EDUCATIVA</p>
+            <h1>Anuncios del colegio</h1>
+            <p>Comunicados, actividades y recordatorios para los estudiantes.</p>
           </div>
         </header>
 
@@ -61,16 +73,24 @@ function AnunciosPage() {
 
         <div className="announcements-note">
           <span>ℹ️</span>
-          <p>Estos son avisos informativos de ejemplo para mostrar cómo funciona la sección. Puedes reemplazarlos por comunicados oficiales de tu institución.</p>
+          <p>
+            En esta sección se reúnen avisos relacionados con la vida escolar.
+            Las fechas y actividades específicas deben confirmarse mediante los
+            comunicados oficiales de la institución.
+          </p>
         </div>
 
         <div className="announcements-list">
           {anuncios.map((anuncio) => (
             <article className="announcement-card" key={anuncio.id}>
-              <div className="announcement-icon" aria-hidden="true">{anuncio.icono}</div>
+              <div className="announcement-icon" aria-hidden="true">
+                {anuncio.icono}
+              </div>
               <div className="announcement-content">
                 <div className="announcement-meta">
-                  <span className="announcement-category">{anuncio.categoria}</span>
+                  <span className="announcement-category">
+                    {anuncio.categoria}
+                  </span>
                   <span className="announcement-date">{anuncio.fecha}</span>
                 </div>
                 <h2>{anuncio.titulo}</h2>
