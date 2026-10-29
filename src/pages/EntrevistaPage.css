@@ -92,3 +92,6 @@
   .interview-back { transition: none; }
 }
 
+
+.interview-icon { color: #075ca8; }
+.interview-icon svg { width: 29px; height: 29px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
