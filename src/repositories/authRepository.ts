@@ -15,6 +15,10 @@ function normalizeCarnet(carnet: string): string {
   return carnet.trim().replace(/[\s-]/g, "");
 }
 
+function normalizePassword(password: string): string {
+  return password.trim();
+}
+
 function getSavedUsers(): UserRecord[] {
   const value = storageService.get<unknown>(USERS_KEY);
   return Array.isArray(value)
@@ -31,10 +35,11 @@ function getSavedUsers(): UserRecord[] {
 function getUsers(): UserRecord[] {
   const usersByCarnet = new Map<string, UserRecord>();
 
-  // Las cuentas incluidas con el proyecto tienen prioridad sobre copias antiguas
-  // guardadas en el navegador, que podrían tener contraseñas desactualizadas.
+  // Las cuentas del proyecto prevalecen sobre copias antiguas guardadas en el navegador.
   for (const user of baseUsers) {
-    usersByCarnet.set(normalizeCarnet(user.carnet), user);
+    if (typeof user.carnet !== "string" || typeof user.password !== "string") continue;
+    const carnet = normalizeCarnet(user.carnet);
+    if (carnet) usersByCarnet.set(carnet, user);
   }
 
   for (const user of getSavedUsers()) {
@@ -63,14 +68,14 @@ function isValidUser(value: unknown): value is User {
 export const authRepository = {
   login(credentials: LoginCredentials): User | null {
     const carnet = normalizeCarnet(credentials.carnet);
-    const password = credentials.password;
+    const password = normalizePassword(credentials.password);
 
     if (!carnet || !password) return null;
 
     const foundUser = getUsers().find(
       (user) =>
         normalizeCarnet(user.carnet) === carnet &&
-        user.password === password
+        normalizePassword(user.password) === password
     );
 
     if (!foundUser) return null;
@@ -90,7 +95,7 @@ export const authRepository = {
   register(credentials: RegisterCredentials): { ok: boolean; message: string } {
     const name = credentials.name.trim();
     const carnet = normalizeCarnet(credentials.carnet);
-    const password = credentials.password;
+    const password = normalizePassword(credentials.password);
 
     if (!name || !carnet || !password) {
       return { ok: false, message: "Completa todos los campos." };
