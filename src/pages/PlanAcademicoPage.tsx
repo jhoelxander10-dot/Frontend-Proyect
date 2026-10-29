@@ -67,6 +67,9 @@ function PlanAcademicoPage() {
   const [materiaTarea, setMateriaTarea] = useState("Matemática");
   const [fechaTarea, setFechaTarea] = useState("");
   const [detalleTarea, setDetalleTarea] = useState("");
+  const [busquedaMateria, setBusquedaMateria] = useState("");
+  const [diaSeleccionado, setDiaSeleccionado] = useState("Todos");
+  const [mensajeCalendario, setMensajeCalendario] = useState("");
 
   useEffect(() => {
     try {
@@ -79,18 +82,32 @@ function PlanAcademicoPage() {
 
   function guardarTarea(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!titulo.trim() || !fechaTarea) return;
+    if (!titulo.trim() || !fechaTarea) {
+      setMensajeCalendario("Completa el nombre y la fecha de entrega.");
+      return;
+    }
     const nuevas = [...tareas, { id: Date.now(), titulo: titulo.trim(), materia: materiaTarea, fecha: fechaTarea, detalle: detalleTarea.trim() }].sort((a, b) => a.fecha.localeCompare(b.fecha));
     setTareas(nuevas);
     localStorage.setItem("mi-colegio-calendario-tareas", JSON.stringify(nuevas));
     setTitulo(""); setFechaTarea(""); setDetalleTarea("");
+    setMensajeCalendario("Tarea agregada al calendario.");
   }
 
   function eliminarTarea(id: number) {
-    const nuevas = tareas.filter((tarea) => tarea.id !== id);
+    const tarea = tareas.find((item) => item.id === id);
+    if (!tarea || !window.confirm(`¿Eliminar la tarea “${tarea.titulo}” del calendario?`)) return;
+    const nuevas = tareas.filter((item) => item.id !== id);
     setTareas(nuevas);
     localStorage.setItem("mi-colegio-calendario-tareas", JSON.stringify(nuevas));
+    setMensajeCalendario("Tarea eliminada del calendario.");
   }
+
+  const materiasFiltradas = materias.filter(([nombre, profesor, contenidos]) =>
+    `${nombre} ${profesor} ${contenidos}`.toLowerCase().includes(busquedaMateria.trim().toLowerCase())
+  );
+  const horarioFiltrado = diaSeleccionado === "Todos"
+    ? horario
+    : horario.filter(([dia]) => dia === diaSeleccionado);
 
   return (
     <main className="section-page">
@@ -148,25 +165,35 @@ function PlanAcademicoPage() {
         {seccion === "materias" ? (
           <section aria-label="Mis materias y profesores">
             <h2 style={{ color: "#073d76", marginTop: 20 }}>Mis materias y profesores</h2>
-            <div className="course-grid">
-              {materias.map(([materia, profesor, contenidos]) => (
+            <label className="academic-filter-label">Buscar materia o profesor
+              <input className="academic-filter" type="search" value={busquedaMateria} onChange={(event) => setBusquedaMateria(event.target.value)} placeholder="Ej. Matemática, Física, profesor..." />
+            </label>
+            <p className="academic-result-count">{materiasFiltradas.length} de {materias.length} materias</p>
+            {materiasFiltradas.length ? <div className="course-grid">
+              {materiasFiltradas.map(([materia, profesor, contenidos]) => (
                 <article className="mini-card" key={materia}>
                   <h2>{materia}</h2>
                   <strong>{profesor}</strong>
                   <p style={{ marginTop: 10 }}>{contenidos}</p>
                 </article>
               ))}
-            </div>
+            </div> : <div className="academic-empty">No se encontraron materias. Prueba con otro nombre o profesor.</div>}
           </section>
         ) : seccion === "horarios" ? (
           <section aria-label="Horario semanal">
             <h2 style={{ color: "#073d76", marginTop: 20 }}>Horario semanal · 6A Secundaria</h2>
             <p>Clases organizadas por día, hora y profesor.</p>
+            <label className="academic-filter-label">Filtrar por día
+              <select className="academic-filter" value={diaSeleccionado} onChange={(event) => setDiaSeleccionado(event.target.value)}>
+                {["Todos", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes"].map((dia) => <option key={dia} value={dia}>{dia}</option>)}
+              </select>
+            </label>
+            <p className="academic-result-count">{horarioFiltrado.length} clases en la vista</p>
             <div className="table-wrap">
               <table>
                 <thead><tr><th>Día</th><th>Materia</th><th>Horario</th><th>Profesor</th></tr></thead>
                 <tbody>
-                  {horario.map(([dia, materia, hora, profesor], index) => (
+                  {horarioFiltrado.map(([dia, materia, hora, profesor], index) => (
                     <tr key={index}><td>{dia}</td><td>{materia}</td><td>{hora}</td><td>{profesor}</td></tr>
                   ))}
                 </tbody>
@@ -185,13 +212,14 @@ function PlanAcademicoPage() {
                 <select value={materiaTarea} onChange={(event) => setMateriaTarea(event.target.value)} style={{ padding: 12, border: "1px solid #c8d5e4", borderRadius: 8, background: "#fff", font: "inherit" }}>{materias.map(([nombre]) => <option key={nombre} value={nombre}>{nombre}</option>)}</select>
               </label>
               <label style={{ display: "grid", gap: 6, color: "#073d76", fontWeight: 600 }}>Fecha de entrega
-                <input type="date" value={fechaTarea} onChange={(event) => setFechaTarea(event.target.value)} required style={{ padding: 12, border: "1px solid #c8d5e4", borderRadius: 8, font: "inherit" }} />
+                <input type="date" value={fechaTarea} min={new Date().toISOString().slice(0, 10)} onChange={(event) => setFechaTarea(event.target.value)} required style={{ padding: 12, border: "1px solid #c8d5e4", borderRadius: 8, font: "inherit" }} />
               </label>
               <label style={{ display: "grid", gap: 6, color: "#073d76", fontWeight: 600, gridColumn: "1 / -1" }}>Detalles (opcional)
                 <textarea value={detalleTarea} onChange={(event) => setDetalleTarea(event.target.value)} rows={2} maxLength={300} placeholder="Páginas, instrucciones o materiales..." style={{ padding: 12, border: "1px solid #c8d5e4", borderRadius: 8, resize: "vertical", font: "inherit" }} />
               </label>
               <button type="submit" style={{ padding: "12px 18px", border: 0, borderRadius: 8, background: "#073d76", color: "#fff", fontWeight: 700, cursor: "pointer", justifySelf: "start" }}>＋ Agregar tarea</button>
             </form>
+            {mensajeCalendario && <p className="calendar-feedback" role="status">{mensajeCalendario}</p>}
             <h3 style={{ color: "#073d76" }}>Mis próximas entregas ({tareas.length})</h3>
             {tareas.length === 0 ? <p style={{ padding: 18, background: "#f4f8fc", borderRadius: 10 }}>Todavía no agregaste tareas. Completa el formulario para crear tu primer recordatorio.</p> : (
               <div style={{ display: "grid", gap: 12, marginTop: 14 }}>
