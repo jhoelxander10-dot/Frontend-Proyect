@@ -121,3 +121,28 @@ td strong { color: var(--blue-dark); }
   .trimester-selector select { width: 100%; min-width: 0; }
   .course-grid { grid-template-columns: 1fr; }
 }
+ 
+/* Botones de navegación y pestañas: mejora visual sin alterar acciones */
+.back-button,
+.section-card button {
+  font-family: inherit;
+  transition: background .2s ease, color .2s ease, border-color .2s ease,
+    box-shadow .2s ease, transform .2s ease;
+}
+.back-button:active,
+.section-card button:active { transform: translateY(0) scale(.98); }
+.back-button:focus-visible,
+.section-card button:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 3px;
+}
+.section-card button:hover {
+  box-shadow: 0 6px 15px rgba(7, 61, 118, .15);
+}
+.section-card button[aria-pressed="true"] {
+  box-shadow: 0 5px 13px rgba(7, 61, 118, .2);
+}
+@media (prefers-reduced-motion: reduce) {
+  .back-button, .section-card button { transition: none; }
+}
+
