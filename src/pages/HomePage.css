@@ -184,3 +184,36 @@ button { font: inherit; }
 }
 
 @media (max-width: 390px) { .dashboard-actions { grid-template-columns: 1fr; } }
+ 
+/* Pulido visual: conserva la paleta y las funciones originales */
+.dashboard-card,
+.logout-button,
+.next-event button {
+  -webkit-tap-highlight-color: transparent;
+}
+.dashboard-card {
+  position: relative;
+  overflow: hidden;
+}
+.dashboard-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: #f3c400;
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+.dashboard-card:hover::before { opacity: 1; }
+.dashboard-card:focus-visible,
+.logout-button:focus-visible,
+.next-event button:focus-visible {
+  outline: 3px solid #f3c400;
+  outline-offset: 3px;
+}
+.logout-button:active,
+.next-event button:active { transform: translateY(0) scale(.98); }
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-card, .logout-button, .next-event button { transition: none; }
+}
+
