@@ -67,3 +67,40 @@
   .announcement-icon { width: 38px; height: 38px; font-size: 19px; }
   .announcement-card h2 { font-size: 16px; }
 }
+
+
+/* Iconografía vectorial: sin emojis ni stickers */
+.announcements-main-icon {
+  color: #07559b;
+  background: linear-gradient(145deg, #eaf4ff, #d9eaff);
+  box-shadow: inset 0 0 0 1px rgba(7, 85, 155, .08);
+}
+.announcement-svg-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+}
+.announcements-main-icon .announcement-svg-icon {
+  width: 31px;
+  height: 31px;
+  stroke-width: 1.7;
+}
+.announcements-note > .announcement-svg-icon {
+  width: 20px;
+  height: 20px;
+  color: #07559b;
+  margin-top: 1px;
+}
+.announcement-icon {
+  color: #07559b;
+  background: #eef5fc;
+}
+.announcement-icon--book { color: #176b87; background: #e8f6f8; }
+.announcement-icon--people { color: #6a4ca5; background: #f1ebfb; }
+.announcement-icon--calendar { color: #93640a; background: #fff5d9; }
+.announcement-icon--school { color: #07559b; background: #eaf4ff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .announcement-card { transition: none; }
+}
