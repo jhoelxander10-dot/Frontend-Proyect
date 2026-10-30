@@ -13,19 +13,21 @@ function LoginPage() {
     return <Navigate to="/" replace />;
   }
 
-  const handleLogin = (credentials: LoginCredentials) => {
+  const handleLogin = async (credentials: LoginCredentials) => {
     setError("");
-    const user = authRepository.login(credentials);
-
-    if (!user) {
-      setError("El carnet o la contraseña son incorrectos.");
-      return;
+    try {
+      await authRepository.login(credentials);
+      navigate("/", { replace: true });
+    } catch (loginError) {
+      setError(
+        loginError instanceof Error
+          ? loginError.message
+          : "No se pudo iniciar sesión. Comprueba tus datos y la conexión con el servidor."
+      );
     }
-
-    navigate("/", { replace: true });
   };
 
-  const handleRegister = (credentials: RegisterCredentials) => {
+  const handleRegister = async (credentials: RegisterCredentials) => {
     setError("");
     return authRepository.register(credentials);
   };

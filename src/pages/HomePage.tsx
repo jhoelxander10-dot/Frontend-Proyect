@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { authRepository } from "../repositories/authRepository";
 import { entrevistasRepository } from "../repositories/entrevistasRepository";
 import { notasRepository } from "../repositories/notasRepository";
@@ -23,8 +23,7 @@ function HomePage() {
   const user = authRepository.getCurrentUser();
 
   if (!user) {
-    navigate("/login", { replace: true });
-    return null;
+    return <Navigate to="/login" replace />;
   }
 
   const notas = notasRepository.getForStudent(user.carnet);
@@ -69,7 +68,7 @@ function HomePage() {
             <button className="dashboard-card" onClick={() => navigate("/plan-academico")}><span className="dashboard-icon"><Icon name="courses" /></span><strong>Plan Académico</strong><small>Materias, profesores y horarios</small></button>
             <button className="dashboard-card" onClick={() => navigate("/notas")}><span className="dashboard-icon"><Icon name="notes" /></span><strong>Mis Notas</strong><small>Consultar calificaciones</small></button>
             <button className="dashboard-card" onClick={() => navigate("/entrevista")}><span className="dashboard-icon"><Icon name="interview" /></span><strong>Entrevistas</strong><small>Citaciones asignadas</small></button>
-            <button className="dashboard-card" onClick={() => navigate("/anuncios")}><span className="dashboard-icon"><Icon name="announcements" /></span><strong>Anuncios</strong><small>Avisos e información importante</small></button>
+            <button className="dashboard-card" onClick={() => navigate("/anuncios")}><span className="dashboard-icon"><Icon name="announcements" /></span><strong>Comunicados</strong><small>Avisos e información importante</small></button>
           </div>
 
           <section className="next-event" aria-label="Próxima entrevista">

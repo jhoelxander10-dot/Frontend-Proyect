@@ -11,66 +11,15 @@ const SESSION_KEY = "app_session";
 const USERS_KEY = "institutional_users";
 const baseUsers = initialUsers as UserRecord[];
 
-function normalizeCarnet(carnet: string): string {
-  return carnet.trim().replace(/[\s-]/g, "");
-}
-
-function getSavedUsers(): UserRecord[] {
-  const value = storageService.get<unknown>(USERS_KEY);
-  return Array.isArray(value)
-    ? value.filter(
-        (user): user is UserRecord =>
-          Boolean(user) &&
-          typeof user === "object" &&
-          typeof user.carnet === "string" &&
-          typeof user.password === "string"
-      )
-    : [];
-}
-
 function getUsers(): UserRecord[] {
-  const usersByCarnet = new Map<string, UserRecord>();
-
-  // Las cuentas incluidas con el proyecto tienen prioridad sobre copias antiguas
-  // guardadas en el navegador, que podrían tener contraseñas desactualizadas.
-  for (const user of baseUsers) {
-    usersByCarnet.set(normalizeCarnet(user.carnet), user);
-  }
-
-  for (const user of getSavedUsers()) {
-    const carnet = normalizeCarnet(user.carnet);
-    if (carnet && !usersByCarnet.has(carnet)) {
-      usersByCarnet.set(carnet, user);
-    }
-  }
-
-  return Array.from(usersByCarnet.values());
-}
-
-function isValidUser(value: unknown): value is User {
-  if (!value || typeof value !== "object") return false;
-
-  const user = value as Partial<User>;
-  return (
-    typeof user.id === "string" &&
-    typeof user.name === "string" &&
-    typeof user.carnet === "string" &&
-    typeof user.curso === "string" &&
-    (user.role === "ADMIN" || user.role === "USUARIO")
-  );
+  const savedUsers = storageService.get<UserRecord[]>(USERS_KEY);
+  return savedUsers ? [...baseUsers, ...savedUsers] : baseUsers;
 }
 
 export const authRepository = {
   login(credentials: LoginCredentials): User | null {
-    const carnet = normalizeCarnet(credentials.carnet);
-    const password = credentials.password;
-
-    if (!carnet || !password) return null;
-
     const foundUser = getUsers().find(
-      (user) =>
-        normalizeCarnet(user.carnet) === carnet &&
-        user.password === password
+      (user) => user.carnet === credentials.carnet && user.password === credentials.password
     );
 
     if (!foundUser) return null;
@@ -89,7 +38,7 @@ export const authRepository = {
 
   register(credentials: RegisterCredentials): { ok: boolean; message: string } {
     const name = credentials.name.trim();
-    const carnet = normalizeCarnet(credentials.carnet);
+    const carnet = credentials.carnet.trim();
     const password = credentials.password;
 
     if (!name || !carnet || !password) {
@@ -100,7 +49,7 @@ export const authRepository = {
       return { ok: false, message: "La contraseña debe tener al menos 6 caracteres." };
     }
 
-    if (getUsers().some((user) => normalizeCarnet(user.carnet) === carnet)) {
+    if (getUsers().some((user) => user.carnet === carnet)) {
       return { ok: false, message: "Ese carnet ya tiene una cuenta institucional." };
     }
 
@@ -113,7 +62,7 @@ export const authRepository = {
       role: "USUARIO",
     };
 
-    const savedUsers = getSavedUsers();
+    const savedUsers = storageService.get<UserRecord[]>(USERS_KEY) ?? [];
     storageService.set<UserRecord[]>(USERS_KEY, [...savedUsers, newUser]);
 
     return { ok: true, message: "Cuenta creada correctamente." };
@@ -124,14 +73,7 @@ export const authRepository = {
   },
 
   getCurrentUser(): User | null {
-    const currentUser: unknown = storageService.get<unknown>(SESSION_KEY);
-
-    if (!isValidUser(currentUser)) {
-      if (currentUser !== null) storageService.remove(SESSION_KEY);
-      return null;
-    }
-
-    return currentUser;
+    return storageService.get<User>(SESSION_KEY);
   },
 
   isAuthenticated(): boolean {

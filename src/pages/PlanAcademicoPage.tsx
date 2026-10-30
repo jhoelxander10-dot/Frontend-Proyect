@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiClient, type ApiTask } from "../services/apiClient";
 import "./SectionPage.css";
 
 const materias = [
@@ -62,7 +64,10 @@ const horario = [
 function PlanAcademicoPage() {
   const navigate = useNavigate();
   const [seccion, setSeccion] = useState<"materias" | "horarios" | "calendario">("materias");
-  const [tareas, setTareas] = useState<Array<{ id: number; titulo: string; materia: string; fecha: string; detalle: string }>>([]);
+  const [tareas, setTareas] = useState<ApiTask[]>([]);
+  const [cargandoTareas, setCargandoTareas] = useState(false);
+  const [errorTareas, setErrorTareas] = useState("");
+  const [filtroTareas, setFiltroTareas] = useState<"todas" | "pendientes" | "completadas">("todas");
   const [titulo, setTitulo] = useState("");
   const [materiaTarea, setMateriaTarea] = useState("Matemática");
   const [fechaTarea, setFechaTarea] = useState("");
@@ -72,16 +77,30 @@ function PlanAcademicoPage() {
   const [mensajeCalendario, setMensajeCalendario] = useState("");
 
   useEffect(() => {
-    try {
-      const guardadas = localStorage.getItem("mi-colegio-calendario-tareas");
-      if (guardadas) setTareas(JSON.parse(guardadas));
-    } catch {
-      setTareas([]);
-    }
+    let activo = true;
+    setCargandoTareas(true);
+    setErrorTareas("");
+
+    apiClient.getTasks()
+      .then(({ tasks }) => {
+        if (activo) setTareas(tasks);
+      })
+      .catch((error: unknown) => {
+        if (activo) {
+          setTareas([]);
+          setErrorTareas(error instanceof Error ? error.message : "No se pudieron cargar las tareas.");
+        }
+      })
+      .finally(() => {
+        if (activo) setCargandoTareas(false);
+      });
+
+    return () => { activo = false; };
   }, []);
 
-  function guardarTarea(event: React.FormEvent<HTMLFormElement>) {
+  async function guardarTarea(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+<<<<<<< HEAD
     if (!titulo.trim() || !fechaTarea) {
       setMensajeCalendario("Completa el nombre y la fecha de entrega.");
       return;
@@ -100,6 +119,45 @@ function PlanAcademicoPage() {
     setTareas(nuevas);
     localStorage.setItem("mi-colegio-calendario-tareas", JSON.stringify(nuevas));
     setMensajeCalendario("Tarea eliminada del calendario.");
+=======
+    if (!titulo.trim() || !fechaTarea) return;
+    setErrorTareas("");
+
+    try {
+      const { task } = await apiClient.createTask({
+        title: titulo.trim(),
+        subject: materiaTarea,
+        dueDate: fechaTarea,
+        details: detalleTarea.trim(),
+      });
+      setTareas((actuales) => [...actuales, task].sort((a, b) => a.dueDate.localeCompare(b.dueDate)));
+      setTitulo("");
+      setFechaTarea("");
+      setDetalleTarea("");
+    } catch (error) {
+      setErrorTareas(error instanceof Error ? error.message : "No se pudo guardar la tarea.");
+    }
+  }
+
+  async function eliminarTarea(id: string) {
+    setErrorTareas("");
+    try {
+      await apiClient.deleteTask(id);
+      setTareas((actuales) => actuales.filter((tarea) => tarea.id !== id));
+    } catch (error) {
+      setErrorTareas(error instanceof Error ? error.message : "No se pudo eliminar la tarea.");
+    }
+  }
+
+  async function cambiarEstadoTarea(tarea: ApiTask) {
+    setErrorTareas("");
+    try {
+      const { task } = await apiClient.updateTask(tarea.id, { completed: !tarea.completed });
+      setTareas((actuales) => actuales.map((actual) => actual.id === task.id ? task : actual));
+    } catch (error) {
+      setErrorTareas(error instanceof Error ? error.message : "No se pudo actualizar la tarea.");
+    }
+>>>>>>> feature/calendar-mongodb-api
   }
 
   const materiasFiltradas = materias.filter(([nombre, profesor, contenidos]) =>
@@ -203,7 +261,10 @@ function PlanAcademicoPage() {
         ) : (
           <section aria-label="Calendario de tareas">
             <h2 style={{ color: "#073d76", marginTop: 20 }}>Calendario de tareas y trabajos</h2>
-            <p>Registra las tareas con su fecha de entrega para organizarte. Se guardan en este navegador.</p>
+            <p>Registra y administra tus tareas. Se guardan en la base de datos vinculadas a tu cuenta.</p>
+            {errorTareas && <p role="alert" style={{ padding: 12, borderRadius: 8, background: "#fff1f0", color: "#a93226" }}>{errorTareas}</p>}
+            {cargandoTareas && <p role="status">Cargando tus tareas...</p>}
+            {!apiClient.getToken() && <p role="status" className="demo-note">Para usar el calendario necesitas iniciar sesión con el servidor MiColegio API.</p>}
             <form onSubmit={guardarTarea} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 14, padding: 18, background: "#f4f8fc", borderRadius: 12, margin: "20px 0" }}>
               <label style={{ display: "grid", gap: 6, color: "#073d76", fontWeight: 600 }}>Nombre del trabajo o tarea
                 <input value={titulo} onChange={(event) => setTitulo(event.target.value)} required maxLength={100} placeholder="Ej. Ejercicios de álgebra" style={{ padding: 12, border: "1px solid #c8d5e4", borderRadius: 8, font: "inherit" }} />
@@ -219,16 +280,31 @@ function PlanAcademicoPage() {
               </label>
               <button type="submit" style={{ padding: "12px 18px", border: 0, borderRadius: 8, background: "#073d76", color: "#fff", fontWeight: 700, cursor: "pointer", justifySelf: "start" }}>＋ Agregar tarea</button>
             </form>
+<<<<<<< HEAD
             {mensajeCalendario && <p className="calendar-feedback" role="status">{mensajeCalendario}</p>}
             <h3 style={{ color: "#073d76" }}>Mis próximas entregas ({tareas.length})</h3>
             {tareas.length === 0 ? <p style={{ padding: 18, background: "#f4f8fc", borderRadius: 10 }}>Todavía no agregaste tareas. Completa el formulario para crear tu primer recordatorio.</p> : (
+=======
+            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+              <h3 style={{ color: "#073d76" }}>Mis tareas ({tareas.length})</h3>
+              <label style={{ display: "flex", alignItems: "center", gap: 8, color: "#073d76", fontWeight: 600 }}>Mostrar
+                <select value={filtroTareas} onChange={(event) => setFiltroTareas(event.target.value as "todas" | "pendientes" | "completadas")} style={{ padding: 9, border: "1px solid #c8d5e4", borderRadius: 8, background: "#fff" }}>
+                  <option value="todas">Todas</option><option value="pendientes">Pendientes</option><option value="completadas">Completadas</option>
+                </select>
+              </label>
+            </div>
+            {!cargandoTareas && tareas.length === 0 ? <p style={{ padding: 18, background: "#f4f8fc", borderRadius: 10 }}>No hay tareas para mostrar. Cuando el servidor esté conectado, agrega tu primer recordatorio.</p> : (
+>>>>>>> feature/calendar-mongodb-api
               <div style={{ display: "grid", gap: 12, marginTop: 14 }}>
-                {tareas.map((tarea) => <article key={tarea.id} style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 12, padding: 16, border: "1px solid #d9e3ef", borderLeft: "5px solid #f2c94c", borderRadius: 10 }}>
-                  <div style={{ flex: "1 1 240px" }}><strong style={{ color: "#073d76" }}>{tarea.titulo}</strong>
-                    <p style={{ margin: "6px 0" }}>{tarea.materia} · Entrega: {new Date(tarea.fecha + "T12:00:00").toLocaleDateString("es-BO", { day: "numeric", month: "long", year: "numeric" })}</p>
-                    {tarea.detalle && <p style={{ margin: 0, color: "#526174" }}>{tarea.detalle}</p>}
+                {tareas.filter((tarea) => filtroTareas === "todas" || (filtroTareas === "completadas" ? tarea.completed : !tarea.completed)).map((tarea) => <article key={tarea.id} style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 12, padding: 16, border: "1px solid #d9e3ef", borderLeft: tarea.completed ? "5px solid #2e8b57" : "5px solid #f2c94c", borderRadius: 10 }}>
+                  <div style={{ flex: "1 1 240px" }}><strong style={{ color: "#073d76", textDecoration: tarea.completed ? "line-through" : "none" }}>{tarea.title}</strong>
+                    <p style={{ margin: "6px 0" }}>{tarea.subject} · Entrega: {new Date(tarea.dueDate + "T12:00:00").toLocaleDateString("es-BO", { day: "numeric", month: "long", year: "numeric" })} · {tarea.completed ? "Completada" : (tarea.dueDate < new Date().toISOString().slice(0, 10) ? "Vencida" : "Pendiente")}</p>
+                    {tarea.details && <p style={{ margin: 0, color: "#526174" }}>{tarea.details}</p>}
                   </div>
-                  <button type="button" onClick={() => eliminarTarea(tarea.id)} style={{ padding: "9px 12px", border: "1px solid #c0392b", borderRadius: 8, background: "#fff", color: "#a93226", cursor: "pointer" }}>Eliminar</button>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <button type="button" onClick={() => cambiarEstadoTarea(tarea)} style={{ padding: "9px 12px", border: "1px solid #075da8", borderRadius: 8, background: "#fff", color: "#075da8", cursor: "pointer" }}>{tarea.completed ? "Reabrir" : "Completar"}</button>
+                    <button type="button" onClick={() => eliminarTarea(tarea.id)} style={{ padding: "9px 12px", border: "1px solid #c0392b", borderRadius: 8, background: "#fff", color: "#a93226", cursor: "pointer" }}>Eliminar</button>
+                  </div>
                 </article>)}
               </div>
             )}
