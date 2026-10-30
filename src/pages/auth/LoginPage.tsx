@@ -15,16 +15,14 @@ function LoginPage() {
 
   const handleLogin = async (credentials: LoginCredentials) => {
     setError("");
-    try {
-      await authRepository.login(credentials);
-      navigate("/", { replace: true });
-    } catch (loginError) {
-      setError(
-        loginError instanceof Error
-          ? loginError.message
-          : "No se pudo iniciar sesión. Comprueba tus datos y la conexión con el servidor."
-      );
+    const user = authRepository.login(credentials);
+
+    if (!user) {
+      setError("El carnet o la contraseña son incorrectos. Verifica tus datos e inténtalo nuevamente.");
+      return;
     }
+
+    navigate("/", { replace: true });
   };
 
   const handleRegister = async (credentials: RegisterCredentials) => {
