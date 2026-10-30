@@ -7,7 +7,8 @@ const envSchema = z.object({
   MONGODB_URI: z.string().min(1, "MONGODB_URI is required"),
   JWT_SECRET: z.string().min(32, "JWT_SECRET must contain at least 32 characters"),
   JWT_EXPIRES_IN: z.string().default("1d"),
-  CLIENT_ORIGIN: z.string().url().default("http://localhost:5173"),
+  CLIENT_ORIGIN: z.string().url().optional(),
+  CLIENT_ORIGINS: z.string().optional(),
 });
 
 const parsed = envSchema.safeParse(process.env);
@@ -17,4 +18,14 @@ if (!parsed.success) {
   throw new Error("Server environment configuration is invalid.");
 }
 
-export const env = parsed.data;
+const configuredOrigins = parsed.data.CLIENT_ORIGINS
+  ?.split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+export const env = {
+  ...parsed.data,
+  CLIENT_ORIGINS: configuredOrigins?.length
+    ? configuredOrigins
+    : [parsed.data.CLIENT_ORIGIN || "http://localhost:5173"],
+};
