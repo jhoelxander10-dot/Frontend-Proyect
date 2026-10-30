@@ -11,7 +11,12 @@ export interface Entrevista {
   observacion: string;
 }
 
-const entrevistas = entrevistasData as Record<string, Entrevista[]>;
+interface EntrevistasData {
+  entrevistas?: Record<string, Entrevista[]>;
+}
+
+const datos = entrevistasData as EntrevistasData;
+const entrevistas = datos.entrevistas ?? {};
 
 export const entrevistasRepository = {
   getForStudent(carnet: string): Entrevista[] {
