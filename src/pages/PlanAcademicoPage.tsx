@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiClient, type ApiTask } from "../services/apiClient";
 import "./SectionPage.css";
@@ -94,7 +95,7 @@ function PlanAcademicoPage() {
     return () => { activo = false; };
   }, []);
 
-  async function guardarTarea(event: React.FormEvent<HTMLFormElement>) {
+  async function guardarTarea(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!titulo.trim() || !fechaTarea) return;
     setErrorTareas("");
