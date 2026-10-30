@@ -15,16 +15,12 @@ function toSessionUser(user: ApiUser): User {
 }
 
 export const authRepository = {
-  async login(credentials: LoginCredentials): Promise<User | null> {
-    try {
-      const response = await apiClient.login(credentials.carnet.trim(), credentials.password);
-      apiClient.setToken(response.token);
-      const sessionUser = toSessionUser(response.user);
-      storageService.set<User>(SESSION_KEY, sessionUser);
-      return sessionUser;
-    } catch {
-      return null;
-    }
+  async login(credentials: LoginCredentials): Promise<User> {
+    const response = await apiClient.login(credentials.carnet.trim(), credentials.password);
+    apiClient.setToken(response.token);
+    const sessionUser = toSessionUser(response.user);
+    storageService.set<User>(SESSION_KEY, sessionUser);
+    return sessionUser;
   },
 
   async register(credentials: RegisterCredentials): Promise<{ ok: boolean; message: string }> {
