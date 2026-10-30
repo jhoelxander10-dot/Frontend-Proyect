@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { authRepository } from "../repositories/authRepository";
 import { notasRepository, trimestres, type Trimester } from "../repositories/notasRepository";
 import "./SectionPage.css";
@@ -10,8 +10,7 @@ function NotasPage() {
   const [trimestre, setTrimestre] = useState<Trimester>("Primer trimestre");
 
   if (!user) {
-    navigate("/login", { replace: true });
-    return null;
+    return <Navigate to="/login" replace />;
   }
 
   const notas = notasRepository.getForStudent(user.carnet, trimestre);
