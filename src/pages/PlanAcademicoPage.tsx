@@ -74,7 +74,6 @@ function PlanAcademicoPage() {
   const [detalleTarea, setDetalleTarea] = useState("");
   const [busquedaMateria, setBusquedaMateria] = useState("");
   const [diaSeleccionado, setDiaSeleccionado] = useState("Todos");
-  const [mensajeCalendario, setMensajeCalendario] = useState("");
 
   useEffect(() => {
     let activo = true;
@@ -100,27 +99,10 @@ function PlanAcademicoPage() {
 
   async function guardarTarea(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-<<<<<<< HEAD
     if (!titulo.trim() || !fechaTarea) {
-      setMensajeCalendario("Completa el nombre y la fecha de entrega.");
+      setErrorTareas("Completa el nombre y la fecha de entrega.");
       return;
     }
-    const nuevas = [...tareas, { id: Date.now(), titulo: titulo.trim(), materia: materiaTarea, fecha: fechaTarea, detalle: detalleTarea.trim() }].sort((a, b) => a.fecha.localeCompare(b.fecha));
-    setTareas(nuevas);
-    localStorage.setItem("mi-colegio-calendario-tareas", JSON.stringify(nuevas));
-    setTitulo(""); setFechaTarea(""); setDetalleTarea("");
-    setMensajeCalendario("Tarea agregada al calendario.");
-  }
-
-  function eliminarTarea(id: number) {
-    const tarea = tareas.find((item) => item.id === id);
-    if (!tarea || !window.confirm(`¿Eliminar la tarea “${tarea.titulo}” del calendario?`)) return;
-    const nuevas = tareas.filter((item) => item.id !== id);
-    setTareas(nuevas);
-    localStorage.setItem("mi-colegio-calendario-tareas", JSON.stringify(nuevas));
-    setMensajeCalendario("Tarea eliminada del calendario.");
-=======
-    if (!titulo.trim() || !fechaTarea) return;
     setErrorTareas("");
 
     try {
@@ -157,7 +139,6 @@ function PlanAcademicoPage() {
     } catch (error) {
       setErrorTareas(error instanceof Error ? error.message : "No se pudo actualizar la tarea.");
     }
->>>>>>> feature/calendar-mongodb-api
   }
 
   const materiasFiltradas = materias.filter(([nombre, profesor, contenidos]) =>
@@ -280,11 +261,6 @@ function PlanAcademicoPage() {
               </label>
               <button type="submit" style={{ padding: "12px 18px", border: 0, borderRadius: 8, background: "#073d76", color: "#fff", fontWeight: 700, cursor: "pointer", justifySelf: "start" }}>＋ Agregar tarea</button>
             </form>
-<<<<<<< HEAD
-            {mensajeCalendario && <p className="calendar-feedback" role="status">{mensajeCalendario}</p>}
-            <h3 style={{ color: "#073d76" }}>Mis próximas entregas ({tareas.length})</h3>
-            {tareas.length === 0 ? <p style={{ padding: 18, background: "#f4f8fc", borderRadius: 10 }}>Todavía no agregaste tareas. Completa el formulario para crear tu primer recordatorio.</p> : (
-=======
             <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
               <h3 style={{ color: "#073d76" }}>Mis tareas ({tareas.length})</h3>
               <label style={{ display: "flex", alignItems: "center", gap: 8, color: "#073d76", fontWeight: 600 }}>Mostrar
@@ -293,8 +269,8 @@ function PlanAcademicoPage() {
                 </select>
               </label>
             </div>
-            {!cargandoTareas && tareas.length === 0 ? <p style={{ padding: 18, background: "#f4f8fc", borderRadius: 10 }}>No hay tareas para mostrar. Cuando el servidor esté conectado, agrega tu primer recordatorio.</p> : (
->>>>>>> feature/calendar-mongodb-api
+            {!cargandoTareas && tareas.length === 0 ? <p style={{ padding: 18, background: "#f4f8fc", borderRadius: 10 }}>No hay tareas para mostrar. Agrega tu primer recordatorio.</p> : (
+
               <div style={{ display: "grid", gap: 12, marginTop: 14 }}>
                 {tareas.filter((tarea) => filtroTareas === "todas" || (filtroTareas === "completadas" ? tarea.completed : !tarea.completed)).map((tarea) => <article key={tarea.id} style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 12, padding: 16, border: "1px solid #d9e3ef", borderLeft: tarea.completed ? "5px solid #2e8b57" : "5px solid #f2c94c", borderRadius: 10 }}>
                   <div style={{ flex: "1 1 240px" }}><strong style={{ color: "#073d76", textDecoration: tarea.completed ? "line-through" : "none" }}>{tarea.title}</strong>
