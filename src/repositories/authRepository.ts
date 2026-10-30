@@ -11,18 +11,29 @@ const SESSION_KEY = "app_session";
 const USERS_KEY = "institutional_users";
 const baseUsers = initialUsers as UserRecord[];
 
+function normalizeCarnet(carnet: string): string {
+  return carnet.trim().toLowerCase();
+}
+
 function getUsers(): UserRecord[] {
-  const savedUsers = storageService.get<UserRecord[]>(USERS_KEY);
-  return savedUsers ? [...baseUsers, ...savedUsers] : baseUsers;
+  const savedUsers = storageService.get<UserRecord[]>(USERS_KEY) ?? [];
+  // Keep the original accounts and append accounts created in this browser.
+  return [...baseUsers, ...savedUsers];
 }
 
 export const authRepository = {
   login(credentials: LoginCredentials): User | null {
+    const carnet = normalizeCarnet(credentials.carnet);
     const foundUser = getUsers().find(
-      (user) => user.carnet === credentials.carnet && user.password === credentials.password
+      (user) =>
+        normalizeCarnet(user.carnet) === carnet &&
+        user.password === credentials.password
     );
 
-    if (!foundUser) return null;
+    if (!foundUser) {
+      storageService.remove(SESSION_KEY);
+      return null;
+    }
 
     const sessionUser: User = {
       id: foundUser.id,
@@ -49,12 +60,12 @@ export const authRepository = {
       return { ok: false, message: "La contraseña debe tener al menos 6 caracteres." };
     }
 
-    if (getUsers().some((user) => user.carnet === carnet)) {
+    if (getUsers().some((user) => normalizeCarnet(user.carnet) === normalizeCarnet(carnet))) {
       return { ok: false, message: "Ese carnet ya tiene una cuenta institucional." };
     }
 
     const newUser: UserRecord = {
-      id: `student-${Date.now()}`,
+      id: `student-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
       name,
       carnet,
       curso: "6A Secundaria",
@@ -64,6 +75,14 @@ export const authRepository = {
 
     const savedUsers = storageService.get<UserRecord[]>(USERS_KEY) ?? [];
     storageService.set<UserRecord[]>(USERS_KEY, [...savedUsers, newUser]);
+
+    const persistedUsers = storageService.get<UserRecord[]>(USERS_KEY) ?? [];
+    if (!persistedUsers.some((user) => user.id === newUser.id)) {
+      return {
+        ok: false,
+        message: "No se pudo guardar la cuenta en este navegador. Revisa el almacenamiento disponible.",
+      };
+    }
 
     return { ok: true, message: "Cuenta creada correctamente." };
   },
