@@ -1,4 +1,7 @@
-const API_BASE_URL = (import.meta.env.VITE_API_URL || "http://localhost:3000").replace(/\/$/, "");
+const configuredApiUrl = import.meta.env.VITE_API_URL?.trim();
+const API_BASE_URL = (
+  configuredApiUrl || (import.meta.env.DEV ? "http://localhost:3000" : "")
+).replace(/\/$/, "");
 const TOKEN_KEY = "mi-colegio-access-token";
 
 export interface ApiUser {
@@ -39,19 +42,33 @@ export const apiClient = {
   },
 
   async request<T>(path: string, init: RequestInit = {}): Promise<T> {
+    if (!API_BASE_URL) {
+      throw new Error(
+        "El servidor del portal no está configurado. Configura VITE_API_URL con la dirección pública de la API en el despliegue."
+      );
+    }
+
     const token = this.getToken();
-    const response = await fetch(`${API_BASE_URL}${path}`, {
-      ...init,
-      headers: {
-        "Content-Type": "application/json",
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        ...init.headers,
-      },
-    });
+    let response: Response;
+
+    try {
+      response = await fetch(`${API_BASE_URL}${path}`, {
+        ...init,
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          ...init.headers,
+        },
+      });
+    } catch {
+      throw new Error(
+        `No se pudo conectar con el servidor (${API_BASE_URL}). Comprueba que la API esté encendida y que VITE_API_URL sea correcta.`
+      );
+    }
 
     if (!response.ok) {
       const payload = await response.json().catch(() => null) as { message?: string } | null;
-      throw new Error(payload?.message || `Error de conexión con el servidor (${response.status}).`);
+      throw new Error(payload?.message || `Error del servidor (${response.status}).`);
     }
 
     if (response.status === 204) return undefined as T;
