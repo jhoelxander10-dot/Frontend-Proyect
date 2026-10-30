@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { authRepository } from "../repositories/authRepository";
 import { entrevistasRepository } from "../repositories/entrevistasRepository";
 import "./EntrevistaPage.css";
@@ -8,8 +8,7 @@ function EntrevistaPage() {
   const user = authRepository.getCurrentUser();
 
   if (!user) {
-    navigate("/login", { replace: true });
-    return null;
+    return <Navigate to="/login" replace />;
   }
 
   const entrevistas = entrevistasRepository.getForStudent(user.carnet);
