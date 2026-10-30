@@ -8,23 +8,41 @@ Backend REST para autenticación y calendario de tareas por estudiante.
 - Una clave JWT aleatoria de al menos 32 caracteres
 
 ## Preparación local
-1. Entra en la carpeta `server`: `cd server`.
+1. Desde la raíz del repositorio entra en el backend: `cd server`.
 2. Instala dependencias: `npm install`.
-3. Copia `.env.example` a `.env` y configura `MONGODB_URI`, `JWT_SECRET` y `CLIENT_ORIGIN`.
-4. En MongoDB Atlas, crea una base de datos, un usuario de base de datos y permite el acceso de red necesario. No publiques la URI ni la contraseña.
-5. Ejecuta `npm run dev`.
-6. Comprueba `http://localhost:3000/api/health`.
+3. Copia `.env.example` a `.env` dentro de `server`.
+4. Configura `MONGODB_URI`, `JWT_SECRET` y `CLIENT_ORIGINS=http://localhost:5173`.
+5. En MongoDB Atlas, crea una base de datos y un usuario de base de datos; permite el acceso de red desde tu entorno. No publiques la URI ni la contraseña.
+6. Ejecuta `npm run dev`.
+7. Comprueba `http://localhost:3000/api/health`; debe responder con estado `ok`.
+
+En la raíz del frontend crea también un archivo `.env` con:
+```env
+VITE_API_URL=http://localhost:3000
+```
+Reinicia Vite después de cambiar variables de entorno.
+
+## Despliegue del backend
+Puedes desplegar el servicio como una aplicación Node en un proveedor como Render:
+- Root Directory: `server`
+- Build Command: `npm install && npm run build`
+- Start Command: `npm start`
+- Environment: configura `NODE_ENV=production`, `MONGODB_URI`, `JWT_SECRET`, `JWT_EXPIRES_IN=1d` y `CLIENT_ORIGINS`.
+- En `CLIENT_ORIGINS` coloca los dos orígenes separados por coma: `http://localhost:5173,https://TU-PROYECTO.vercel.app`. Sustituye el dominio de ejemplo por el dominio real de Vercel.
+
+Cuando el backend esté desplegado, configura en Vercel la variable `VITE_API_URL` con la URL HTTPS del backend, sin una barra final, por ejemplo `https://tu-api.onrender.com`. Después vuelve a desplegar el frontend.
 
 ## Rutas
+- `GET /api/health` — comprueba que la API está encendida.
 - `POST /api/auth/register` — crea cuentas de estudiante; el rol nunca se acepta del cliente.
 - `POST /api/auth/login` — verifica carnet y contraseña.
 - `GET /api/auth/me` — devuelve la cuenta de la sesión.
 - `GET /api/tasks` — lista únicamente las tareas del usuario autenticado.
 - `POST /api/tasks` — crea una tarea para el usuario autenticado.
-- `PATCH /api/tasks/:id` — modifica una tarea propia, incluida la marca `completed`.
+- `PATCH /api/tasks/:id` — modifica una tarea propia.
 - `DELETE /api/tasks/:id` — elimina una tarea propia.
 
-Las rutas de tareas requieren `Authorization: Bearer <token>`. El servidor determina el propietario desde el token; nunca acepta un ID de estudiante enviado por el navegador para decidir qué tareas devolver.
+Las rutas de tareas requieren `Authorization: Bearer <token>`. El servidor determina el propietario desde el token.
 
-## Producción
-Configura las variables de entorno en el proveedor de despliegue, usa HTTPS y restringe `CLIENT_ORIGIN` al dominio real del frontend. Genera un JWT secret aleatorio y rota cualquier secreto que haya sido publicado accidentalmente. No subas `.env` a Git.
+## Seguridad
+No subas archivos `.env` a Git. Usa HTTPS y secretos fuertes. No compartas credenciales de MongoDB ni JWT.
