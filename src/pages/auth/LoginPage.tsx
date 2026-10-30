@@ -15,14 +15,16 @@ function LoginPage() {
 
   const handleLogin = async (credentials: LoginCredentials) => {
     setError("");
-    const user = await authRepository.login(credentials);
-
-    if (!user) {
-      setError("No se pudo iniciar sesión. Verifica tus datos y que el servidor esté disponible.");
-      return;
+    try {
+      await authRepository.login(credentials);
+      navigate("/", { replace: true });
+    } catch (loginError) {
+      setError(
+        loginError instanceof Error
+          ? loginError.message
+          : "No se pudo iniciar sesión. Comprueba tus datos y la conexión con el servidor."
+      );
     }
-
-    navigate("/", { replace: true });
   };
 
   const handleRegister = async (credentials: RegisterCredentials) => {
