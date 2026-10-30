@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { authRepository } from "../repositories/authRepository";
 import { entrevistasRepository } from "../repositories/entrevistasRepository";
 import { notasRepository } from "../repositories/notasRepository";
@@ -23,8 +23,7 @@ function HomePage() {
   const user = authRepository.getCurrentUser();
 
   if (!user) {
-    navigate("/login", { replace: true });
-    return null;
+    return <Navigate to="/login" replace />;
   }
 
   const notas = notasRepository.getForStudent(user.carnet);
