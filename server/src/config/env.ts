@@ -1,10 +1,12 @@
 import "dotenv/config";
 import { z } from "zod";
 
+// Support both variable names used by earlier versions of this project.
+const mongoUri = process.env.MONGODB_URI || process.env.MONGO_URI;
+
 const envSchema = z.object({
   PORT: z.coerce.number().int().positive().default(3000),
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
-  MONGODB_URI: z.string().min(1, "MONGODB_URI is required"),
   JWT_SECRET: z.string().min(32, "JWT_SECRET must contain at least 32 characters"),
   JWT_EXPIRES_IN: z.string().default("1d"),
   CLIENT_ORIGIN: z.string().url().optional(),
@@ -12,6 +14,11 @@ const envSchema = z.object({
 });
 
 const parsed = envSchema.safeParse(process.env);
+
+if (!mongoUri) {
+  console.error("Missing MongoDB connection string. Set MONGODB_URI (or MONGO_URI).");
+  throw new Error("MongoDB connection string is not configured.");
+}
 
 if (!parsed.success) {
   console.error("Invalid server environment:", parsed.error.flatten().fieldErrors);
@@ -25,6 +32,7 @@ const configuredOrigins = parsed.data.CLIENT_ORIGINS
 
 export const env = {
   ...parsed.data,
+  MONGODB_URI: mongoUri,
   CLIENT_ORIGINS: configuredOrigins?.length
     ? configuredOrigins
     : [parsed.data.CLIENT_ORIGIN || "http://localhost:5173"],
