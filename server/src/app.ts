@@ -11,7 +11,14 @@ export const app = express();
 app.disable("x-powered-by");
 app.use(helmet());
 app.use(cors({
-  origin: env.CLIENT_ORIGIN,
+  origin(origin, callback) {
+    // Requests without an Origin header (health checks and server-to-server calls) are allowed.
+    if (!origin || env.CLIENT_ORIGINS.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+    callback(new Error("Origen no permitido por CORS."));
+  },
   methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
@@ -34,6 +41,10 @@ app.use((_req, res) => res.status(404).json({ message: "Ruta no encontrada." }))
 const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
   if (error && typeof error === "object" && "code" in error && error.code === 11000) {
     res.status(409).json({ message: "Ese carnet ya tiene una cuenta." });
+    return;
+  }
+  if (error instanceof Error && error.message === "Origen no permitido por CORS.") {
+    res.status(403).json({ message: error.message });
     return;
   }
   console.error("API request failed:", error);
