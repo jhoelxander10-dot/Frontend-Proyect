@@ -94,8 +94,7 @@ export const authRepository = {
       role: "USUARIO",
     };
 
-    const savedUsers = storageService.get<UserRecord[]>(USERS_KEY) ?? [];
-    storageService.set<UserRecord[]>(USERS_KEY, [...savedUsers, newUser]);
+    storageService.set<UserRecord[]>(ADMIN_USERS_KEY, [...getUsers(), newUser]);
 
     const persistedUsers = storageService.get<UserRecord[]>(USERS_KEY) ?? [];
     if (!persistedUsers.some((user) => user.id === newUser.id)) {
