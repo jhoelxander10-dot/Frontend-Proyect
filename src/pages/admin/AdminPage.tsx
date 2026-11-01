@@ -15,7 +15,7 @@ function AdminPage() {
   const navigate = useNavigate();
   const current = authRepository.getCurrentUser();
   const [tab, setTab] = useState<Tab>("resumen");
-  const [refresh, setRefresh] = useState(0);
+  const [, setRefresh] = useState(0);
   const [message, setMessage] = useState("");
   const [student, setStudent] = useState({ name: "", carnet: "", curso: "6A Secundaria", password: "" });
   const [grade, setGrade] = useState({ carnet: "", trimestre: "Primer trimestre" as Trimester, materia: "Matemática", calificacion: "80" });
