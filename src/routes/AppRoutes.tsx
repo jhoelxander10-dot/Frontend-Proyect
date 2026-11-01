@@ -7,12 +7,14 @@ import HorariosPage from "../pages/HorariosPage";
 import NotasPage from "../pages/NotasPage";
 import EntrevistaPage from "../pages/EntrevistaPage";
 import AnunciosPage from "../pages/AnunciosPage";
+import AdminPage from "../pages/admin/AdminPage";
 
 function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/admin" element={<AdminPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/plan-academico" element={<PlanAcademicoPage />} />
         <Route path="/cursos" element={<CursosPage />} />
