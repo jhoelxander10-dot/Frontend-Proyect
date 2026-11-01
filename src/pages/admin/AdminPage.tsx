@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { authRepository } from "../../repositories/authRepository";
 import { notasRepository, trimestres, type Trimester } from "../../repositories/notasRepository";
@@ -28,7 +28,7 @@ function AdminPage() {
   const schedules = schoolRepository.getSchedule();
   const announcements = announcementsRepository.getAll();
   const interviews = entrevistasRepository.getAll();
-  const stats = useMemo(() => ({ students: users.filter((u) => u.role === "USUARIO").length, courses: courses.length, interviews: interviews.length, announcements: announcements.length }), [refresh]);
+  const stats = { students: users.filter((u) => u.role === "USUARIO").length, courses: courses.length, interviews: interviews.length, announcements: announcements.length };
 
   if (!current) return <Navigate to="/login" replace />;
   if (current.role !== "ADMIN") return <Navigate to="/" replace />;
