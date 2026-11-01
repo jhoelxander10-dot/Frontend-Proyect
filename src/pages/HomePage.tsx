@@ -46,6 +46,7 @@ function HomePage() {
           <span className="header-label">PORTAL ACADÉMICO</span>
           <strong>Portal del Estudiante</strong>
         </div>
+        {user.role === "ADMIN" && <button className="logout-button" onClick={() => navigate("/admin")} style={{ marginLeft: "auto", marginRight: 8, background: "#f3c400", color: "#073d76" }}>Panel administrativo</button>}
         <button className="logout-button" onClick={logout}>
           <Icon name="logout" />
           <span>Cerrar sesión</span>
