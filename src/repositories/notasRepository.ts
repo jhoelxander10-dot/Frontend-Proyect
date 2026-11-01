@@ -49,6 +49,17 @@ const defaultNotesByTrimester: StudentNotesByTrimester = {
 };
 
 export const notasRepository = {
+  setForStudent(carnet: string, trimestre: Trimester, materia: string, calificacion: number): void {
+    const allNotes = storageService.get<Record<string, StudentNotesByTrimester>>(NOTES_KEY) ?? {};
+    const studentNotes = allNotes[carnet] ?? { ...defaultNotesByTrimester };
+    const current = studentNotes[trimestre] ?? [];
+    const exists = current.some((item) => item.materia === materia);
+    studentNotes[trimestre] = exists
+      ? current.map((item) => item.materia === materia ? { ...item, calificacion } : item)
+      : [...current, { materia, calificacion }];
+    allNotes[carnet] = studentNotes;
+    storageService.set(NOTES_KEY, allNotes);
+  },
   getForStudent(carnet: string, trimestre: Trimester = "Primer trimestre"): StudentNote[] {
     const allNotes = storageService.get<Record<string, StudentNotesByTrimester>>(NOTES_KEY) ?? {};
 
