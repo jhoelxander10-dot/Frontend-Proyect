@@ -1,5 +1,6 @@
 import { Navigate, useNavigate } from "react-router-dom";
 import { authRepository } from "../repositories/authRepository";
+import { announcementsRepository } from "../repositories/announcementsRepository";
 import "./AnunciosPage.css";
 
 type AnnouncementIconName = "school" | "book" | "people" | "calendar" | "megaphone" | "info";
@@ -59,44 +60,10 @@ function AnnouncementIcon({ name }: { name: AnnouncementIconName }) {
   );
 }
 
-const anuncios = [
-  {
-    id: 1,
-    categoria: "Comunicado escolar",
-    icono: "school" as const,
-    titulo: "Información para la comunidad educativa",
-    mensaje:
-      "Consulta los comunicados de la institución y mantente atento a las indicaciones de la dirección y de tus profesores.",
-    fecha: "Comunidad educativa",
-  },
-  {
-    id: 2,
-    categoria: "Académico",
-    icono: "book" as const,
-    titulo: "Actividades y evaluaciones",
-    mensaje:
-      "Revisa las tareas, los trabajos prácticos y las fechas de evaluación comunicadas por tus profesores para cada materia.",
-    fecha: "Seguimiento académico",
-  },
-  {
-    id: 3,
-    categoria: "Convivencia escolar",
-    icono: "people" as const,
-    titulo: "Cuidemos nuestra unidad educativa",
-    mensaje:
-      "Promovamos el respeto entre compañeros, el cuidado de las aulas y los materiales, y una buena convivencia dentro del colegio.",
-    fecha: "Recordatorio institucional",
-  },
-  {
-    id: 4,
-    categoria: "Actividades",
-    icono: "calendar" as const,
-    titulo: "Actividades y reuniones del colegio",
-    mensaje:
-      "Para conocer las fechas de reuniones, actos cívicos y otras actividades institucionales, revisa los avisos comunicados por el colegio.",
-    fecha: "Consultar comunicados",
-  },
-];
+const anuncios = announcementsRepository.getAll().map((item, index) => ({
+  ...item,
+  icono: (["school", "book", "people", "calendar"] as const)[index % 4],
+}));
 
 function AnunciosPage() {
   const navigate = useNavigate();
